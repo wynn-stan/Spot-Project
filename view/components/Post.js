@@ -13,19 +13,19 @@ class Post extends React.Component{
         
         let Post = (
                 <div className="post">
-                    <img src={this.state.post.project_image_url || "/public/svgs/avatar3.svg"} className="project-icon" />
+                    <img src={this.state.post.project_avatar_url} className="project-icon" />
                     <p className='post-for'>{this.state.post.project_name}</p> 
                    <div className="post-by-container">
-                        <p className='post-by'>{this.state.post.post_by}</p>
+                        <p className='post-by'>{this.state.post.username}</p>
                         <p className='post-time'>{this.state.post.post_time}</p>
                    </div>
                     <img src="/public/svgs/DotsThreeVertical.svg" className='options-icon' />
-                    <p className='post-heading'>{this.state.post.heading}</p>
-                    <p className='post-description'>{this.state.post.description}</p>
+                    <p className='post-heading'>{this.state.post.post_heading}</p>
+                    <p className='post-description'>{this.state.post.post_description}</p>
                     {
-                        this.state.post.post_image
+                        this.state.post.post_img_url
                         &&
-                        <img className="post-img" src={this.state.post.post_image} />
+                        <img className="post-img" src={this.state.post.post_img_url} />
                     }
                 </div>
         )

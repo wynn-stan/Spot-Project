@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * search, live search for proect names, on every keystroke return select top 5 where params
@@ -42,6 +43,24 @@ class SearchContainer extends React.Component{
         
     }
 
+    displaySearchResults = () => {
+
+        let searchResultsContainer = document.querySelector(".search-container .results-container");
+        searchResultsContainer.classList.add("display-item");
+
+    }
+
+    hideSearchResults = () => {
+
+        let searchResultsContainer = document.querySelector(".search-container .results-container");
+        searchResultsContainer.classList.remove("display-item");
+
+    }   
+
+    setSelectedProject = (projectRef) => {
+        sessionStorage.setItem("selected_project", projectRef);
+    }
+
     componentDidMount(){
         //searchbar is now available
         document.querySelector('input#search').addEventListener("input", () => {
@@ -55,10 +74,15 @@ class SearchContainer extends React.Component{
                    })
                 }
             );
-        })
+        });
+
+        document.querySelector('input#search').addEventListener("focusin", this.displaySearchResults)
+
+        document.querySelector('input#search').addEventListener("focusout", this.hideSearchResults);        
     }
 
     render(){
+
         return (
             <div className='search-container'>
 
@@ -74,7 +98,10 @@ class SearchContainer extends React.Component{
                 {
                     this.state.results.map(
                         (row) => {
-                            return <p key={row.project_name}>{row.project_name}</p>
+                            return (<Link to="/project-profile" key={row.name} className='result-item' onClick={() => {this.setSelectedProject(row.id)}}>
+                                        <img src={row.avatar_url} className="result-icon" />
+                                        <p>{row.name}</p>
+                                    </Link>)
 
                         }
                     )

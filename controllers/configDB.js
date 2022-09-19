@@ -12,28 +12,15 @@ const config = {
 
 let connection;
 
-async function connect(mysql, config){
+(
+    async () => {
+        connection = mysql.createConnection(config);
+        logger.info("Database Promise connection established");
+    }
+)();
 
-    let connection = await mysql.createConnection(config);
-    logger.info("Connected To Database Successfully");
+module.exports = connection;
 
-    return connection;
-
-}
-
-try {
-    
-    connection = connect(mysql, config);
-
-} catch (error) {
-
-    logger.error(error);
-    
-}
-
-module.exports = {
-    connection: connection
-}
 
 
 

@@ -1,9 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import Post from './Post';
-import SearchContainer from './SearchContainer';
 import HeaderNav from './HeaderNav';
 import FooterNav from './FooterNav';
+import DesktopSideNav from './DesktopSideNav';
 
 class Home extends React.Component {
 
@@ -54,21 +53,19 @@ class Home extends React.Component {
     }   
 
     savePosts = (posts) => {
-        sessionStorage.setItem("posts", posts);
+        sessionStorage.setItem("posts", JSON.stringify(posts));
     }
     
-    fetchDBPosts = async () => {
+    getHomeFeed = async () => {
 
-        const posts = await fetch("/fetchDBPosts", {
-            method: "POST",
-            headers: {
-                
-            }
+        const posts = await fetch("/getHomeFeed", {
+            method: "POST"
         }).then(
            async (res) => {
                 return await res.json();
             }
         );
+
 
         this.savePosts(posts);
         this.renderHomePosts(this.state.currentPage);
@@ -77,7 +74,7 @@ class Home extends React.Component {
 
     componentDidMount(){      
 
-        this.fetchDBPosts();
+        this.getHomeFeed();
 
         //create the observer
         //observe the loading ref element
@@ -117,35 +114,53 @@ class Home extends React.Component {
         return (
             <>
             
-            <HeaderNav />
+            <HeaderNav desktopView={this.props.desktopView}/>
 
-            <div className="post-section">
-                <div className="post-container">
-                    {
-                        this.state.posts.map(
-                            (postDetails) => {
-                                return <Post key={postDetails.post_id} postDetails={postDetails} />
-                            }
-                        )
-                    }
-                    <div ref={this.loadingRef}>
-                    Loading...
+            <div className='main-section'>
+
+                {
+                    this.props.desktopView == true
+                    &&
+                    <DesktopSideNav />
+                }
+
+
+                <div className="post-section content-container">
+                    <div className="post-container">
+                        {
+                            this.state.posts.map(
+                                (postDetails) => {
+                                    return <Post key={postDetails.post_id} postDetails={postDetails} />
+                                }
+                            )
+                        }
+
+                        <div className="loading-container">
+                            <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                            </div>
+
+                            <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                            </div>
+
+                            <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
 
-            <FooterNav />
+            <FooterNav desktopView={this.props.desktopView} />
         </>
         )
 
     }
 
     componentDidUpdate(){
-
-
-
-
 
     }
 

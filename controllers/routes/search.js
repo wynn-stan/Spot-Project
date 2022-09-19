@@ -1,5 +1,10 @@
 let logger = require("../logger");
-let connection = require("../configDB").connection;
+let connection = require("../configDB");
+(
+    async () => {
+        connection = await connection;
+    }
+)();
 
 async function search(req, res){
 
@@ -16,8 +21,6 @@ async function search(req, res){
     `;
 
     try {
-
-        connection = await connection;
 
         let [rows, metadata] = await connection.query(
             query,

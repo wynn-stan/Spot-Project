@@ -1,4 +1,4 @@
-let connection = require('../configDB').connection;
+let connection = require('../configDB');
 const logger = require('../logger');
 
 
@@ -27,8 +27,6 @@ async function getPosts(userId){
 
     try {
 
-
-        connection = await connection;
         let [rows, metadata] = await connection.query(
             query,
             [userId],
@@ -38,6 +36,7 @@ async function getPosts(userId){
             }
         );
 
+        console.log(rows)
             rows = JSON.stringify(rows);
             return rows;
 

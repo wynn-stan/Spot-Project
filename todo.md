@@ -51,3 +51,19 @@ configuring routing to sign up and sign in and jwt authentication.
 - if user, move to / with a token and send in header token 
 
 ### Login as guest
+
+### 
+Database functions
+Sign Up
+Public Chat forum
+Sign Out
+Menu Bar
+My profile page
+
+Create 
+User
+Post
+Projects
+Project Categories
+User project following
+Project category relationship
