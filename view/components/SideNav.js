@@ -1,6 +1,5 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import setSessionItem from "../utils/setSessionItem";
 
 class DesktopSideNav extends React.Component{
 
@@ -26,6 +25,8 @@ class DesktopSideNav extends React.Component{
                     <a href="#" className='username'>u/{this.state.userDetails.username}</a>
                     <Link to="/user-profile" className='my-profile-option'>My Profile</Link>
                     <Link to="/create-project" className='create-option'>Create A Project</Link>
+                    <Link to="/explore" className='create-option'>Explore Projects</Link>
+                    <Link to="/create-post" className='create-option'>Create A Post</Link>
                     <Link to="/user-settings" className='Settings'>Settings</Link>
                     <a href="/signout" className='signout'>Sign Out</a>
 
@@ -34,41 +35,48 @@ class DesktopSideNav extends React.Component{
                 <div className='explore-nav-container'>
                     <div className='followed-projects'>
                         <p className='header'>Followed Projects</p>
+                        <div className='options'>
                         {
-                            this.state.followedProjects
+                            this.state.followedProjects.length > 0
                             &&
                             this.state.followedProjects.map(
                                 (project) => {
-                                    return (<Link to={`/project-profile:${project.name}`} className='option'>
-                                        <img src={project.avatar_url} className="avatar-icon" />
-                                        <p className='project-name'>{project.name}</p>
-                                    </Link>)
+                                    return (<div className='option'>
+                                        <img src={project.avatar_url} className="profile-icon" />
+                                        <Link to={`/project-profile:${project.name}`} className='project-name'>{project.name}</Link>
+                                    </div>)
                                 }
                             )
                         }
+                        {
+                            this.state.followedProjects.length == 0
+                            &&
+                            <div>No projects currently being followed</div>
+                        }
+                        </div>
                     </div>
     
                     <div className='your-projects'>
 
                             <p className='header'>Managed Projects</p>
     
-                            <div className='create-a-project'>
-                                <img src="/public/svgs/Plus.svg" />
-                                <Link to="/create-project" className='create-a-project'>Create A Project</Link>
-                            </div>
-    
                             <div className='options'>
                                 {
-                                    this.state.managedProjects
+                                    this.state.managedProjects.length > 0
                                     &&
                                     this.state.managedProjects.map(
                                         (project) => {
-                                            return (<Link to="/project-profile"  onClick={() => {setSessionItem("selected_project", project.name)}} className='option'>
-                                                <img src={project.avatar_url} className="avatar-icon" />
-                                                <p className='project-name'>{project.name}</p>
-                                            </Link>)
+                                            return (<div className='option'>
+                                                <img src={project.avatar_url} className="profile-icon" />
+                                                <Link to={`/project-profile:${project.name}`} className='project-name'>{project.name}</Link>
+                                            </div>)
                                         }
                                     )
+                                }
+                                {
+                                    this.state.managedProjects.length == 0
+                                    &&
+                                    <div>No projects currently being managed</div>
                                 }
                             </div>
     

@@ -1,7 +1,7 @@
 import React from "react";
 import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
-import DesktopSideNav from "./DesktopSideNav";
+import DesktopSideNav from "./SideNav";
 import setSessionItem from "../utils/setSessionItem";
 
 class ProjectCreator extends React.Component{
@@ -21,15 +21,23 @@ class ProjectCreator extends React.Component{
 
                 <div className="main-section">
     
-                    {
-                        this.props.desktopView
-                        && 
-                        <DesktopSideNav />
-                    }
+                    <DesktopSideNav desktopView={this.props.desktopView} />
 
                     <form className="create-project-form" action="/create-project" method="POST">
-                        <input placeholder="An Interesting Project Name" type="text" className="project-title" name="project_name" required/>
-                        <textarea placeholder="Project Description" name="project_description" className="project-description"></textarea>
+
+                        <header>Create A Project</header>
+
+                        <div className="form-floating">
+                            <input placeholder="An Interesting Project Name" type="text" className="project-title form-control" name="project_name" id="project_name" required/>
+                            <label for="project_name">An Interesting Project Name</label>
+                        </div>
+
+                        <div className="form-floating">
+                            <textarea placeholder="Project Description" name="project_description" id="project_description" className="project-description form-control"></textarea>
+                            <label for="project_description">Project Description</label>
+                        </div>
+
+
                         <fieldset>
                             <legend>Select Project's Categories</legend>
                             {
@@ -41,7 +49,7 @@ class ProjectCreator extends React.Component{
                                             return (
                                                 <div key={category.id} className="category_option">
                                                     <input type="checkbox" name={category.name} value={category.name} data-id={category.id} defaultChecked/>
-                                                    <p>{category.name}</p>
+                                                    <p className="badge bg-primary rounded-pill">{category.name}</p>
                                                 </div>
 
                                             )
@@ -50,7 +58,7 @@ class ProjectCreator extends React.Component{
                                             return (
                                                 <div  key={category.id} className="category_option">
                                                     <input type="checkbox" name={category.name} value={category.name} data-id={category.id} />
-                                                    <p>{category.name}</p>
+                                                    <p className="badge bg-primary rounded-pill">{category.name}</p>
                                                 </div>
 
                                             )
@@ -61,7 +69,7 @@ class ProjectCreator extends React.Component{
                             }
                         </fieldset>
 
-                        <button type="submit" className="create-btn">Create Project</button>
+                        <button type="submit" className="create-btn btn btn-primary">Create Project</button>
                     </form>
     
                 </div>
@@ -86,6 +94,8 @@ class ProjectCreator extends React.Component{
     }
 
     async componentDidMount(){
+
+        window.scrollTo(0,0);
 
         let projectCategories = await this.fetchAllProjectCategories();
 
@@ -115,7 +125,10 @@ class ProjectCreator extends React.Component{
             project_categories: project_categories
         }
 
-        console.log(projectDetails);
+        if(projectDetails.project_name == ""){
+            alert("Project Name Cannot Be Empty");
+            return;
+        }
 
         try{
 
@@ -134,9 +147,6 @@ class ProjectCreator extends React.Component{
                 }else {
 
                     alert("Successfully Created Project");
-                    setSessionItem("selected_project", projectDetails.project_name);
-                    window.location = "/project-profile"
-
                 }
             }
         )

@@ -8,7 +8,13 @@
     <title>Test Sidebar</title>
 </head>
 <body>
-    
+  
+
+  <div class="form-floating">
+    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+    <label for="floatingInput">Email address</label>
+  </div>
+
     <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
           <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
@@ -80,6 +86,8 @@
             </li>
           </ul>
         <hr>
+
+        
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="https://github.com/mdo.png" alt="" class="rounded-circle me-2" width="32" height="32">
@@ -94,6 +102,15 @@
             </ul>
           </div>
       </div>
+
+      <select class="form-select" onfocus="this.size='20'" onblur="this.size=1" onchange="this.size=1; this.blur();" id="inlineFormCustomSelect">
+        <option selected>Choose...</option>
+        <option>Welcome 1</option>
+        <option>Welcome 2</option>
+        <option>Welcome 3</option>
+        <option>Welcome 4</option>
+    
+      </select>
 
       <div class="d-flex text-muted pt-3">
         <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>

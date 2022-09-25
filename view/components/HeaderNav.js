@@ -21,6 +21,10 @@ class HeaderNav extends React.Component {
 
   }
 
+  componentDidMount(){
+    document.querySelector('.profile-btn').addEventListener("click", () => {document.querySelector(".side-nav-container").classList.toggle("show")})
+  }
+
   render(){
 
     const userDetails = JSON.parse(sessionStorage.userDetails)
@@ -56,11 +60,7 @@ class HeaderNav extends React.Component {
 
           } 
 
-          {
-            this.state.desktopView == false
-            &&
-            <img src={userDetails.avatar_url} className="profileButton profile-icon" />
-          }
+          <img src={userDetails.avatar_url} className="profile-btn profile-icon" />
   
       </div>
       

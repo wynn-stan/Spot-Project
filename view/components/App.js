@@ -1,6 +1,6 @@
 import React from 'react';
 import Home from './Home';
-import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Link, useParams} from 'react-router-dom';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../public/style.css";
 import "../public/bootstrap.min.css";
@@ -26,6 +26,11 @@ class App extends React.Component{
 
     render(){
 
+        const Wrapper = (props) => {
+            const params = useParams();
+            return <ProjectProfile desktopView={this.state.desktopView} {...{...props, match: {params}}}/>
+        }
+
         return (
             <BrowserRouter>
                 <Routes>
@@ -35,9 +40,7 @@ class App extends React.Component{
                     <Route path="/notifications" element={<Notifications desktopView={this.state.desktopView}/>} />
                     <Route path="/explore" element={<Explore desktopView={this.state.desktopView}/>} />
                     <Route path="/create-project" element={<ProjectCreator desktopView={this.state.desktopView}/>} />
-                    <Route path="/project-profile:projectRef" render={
-                        (props) => { <ProjectProfile globalStore={globalStore} {...props} desktopView={this.state.desktopView}/>}
-                    } />
+                    <Route path="/project-profile:projectRef" element={<Wrapper />} />
                     <Route path="/user-profile" element={<UserProfile desktopView={this.state.desktopView}/>} />
                     <Route path='/user-settings' element={<UserSettings desktopView={this.state.desktopView}/>} />
 
@@ -69,6 +72,10 @@ class App extends React.Component{
             })
        }
 
+    }
+
+    componentDidUpdate(){
+        window.scrollTo(0,0);
     }
 
 

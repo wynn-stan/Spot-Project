@@ -1,7 +1,7 @@
 import HeaderNav from "./HeaderNav";
 import FooterNav from "./FooterNav";
 import React from "react";
-import DesktopSideNav from "./DesktopSideNav";
+import DesktopSideNav from "./SideNav";
 
 
 class Notifications extends React.Component{
@@ -14,13 +14,9 @@ class Notifications extends React.Component{
     
                  <div className='main-section'>
     
-                    {
-                        this.props.desktopView == true
-                        &&
-                        <DesktopSideNav />
-                    }
+                    <DesktopSideNav desktopView={this.props.desktopView} />
     
-                    <div className="notifications-contiainer content-container">
+                    <div className="notifications-container content-container">
                         <h1 className="header">No New Notifications</h1>
                     </div>
     

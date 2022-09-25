@@ -51,9 +51,8 @@ async function getProjectPosts(req, res){
 
 async function getProjectDetails(req, res){
 
-    let projectRef = req.body.projectRef;
+    let projectRef = (req.body.projectRef).split(":")[1];
     let projectDetails = await dbRequestHandlers.getProjectDetails(projectRef);
-
     res.send(projectDetails);
 
 }
@@ -93,10 +92,23 @@ async function getCategoryProjects(req, res){
 
     try {
 
+        let categoryProjects = [];
+
         let category_id = req.body.category_id;
 
-        let rows = await dbRequestHandlers.getCategoryProjects(category_id);
-        res.send(rows);
+        categoryProjects = await dbRequestHandlers.getCategoryProjects(category_id);
+        
+        console.log(categoryProjects);
+
+        categoryProjects = await categoryProjects.map(
+            async (project) => {
+                let categories = await dbRequestHandlers.getProjectCategories(project.id);
+                project = {...project, categories: categories};
+                return project
+            }
+        )
+
+        res.send(categoryProjects);
 
     }catch(err){
         console.log(err);
@@ -124,6 +136,7 @@ async function searchForProjects(req, res){
     try {
 
         let project_name = req.body.search;
+        console.log(project_name);
         let rows = await dbRequestHandlers.searchForProjects(project_name);
         res.send(rows);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
-import DesktopSideNav from "./DesktopSideNav";
+import DesktopSideNav from "./SideNav";
 import Post from "./Post";
 
 class ProjectProfile extends React.Component{
@@ -13,9 +13,7 @@ class ProjectProfile extends React.Component{
         }
     }
 
-    fetchProjectDetails = async () => {
-
-        let projectRef = this.props.match.projectRef;
+    fetchProjectDetails = async (projectRef) => {
 
         let [projectDetails] = await fetch("/getProjectDetails", {
             method: "POST",
@@ -56,7 +54,11 @@ class ProjectProfile extends React.Component{
     }
 
     async componentDidMount(){
-       let projectDetails = await this.fetchProjectDetails();
+
+        window.scrollTo(0, 0);
+
+
+       let projectDetails = await this.fetchProjectDetails(this.props.match.params.projectRef);
        let posts = await this.fetchProjectPosts(projectDetails.id);
 
        this.setState({
@@ -66,8 +68,21 @@ class ProjectProfile extends React.Component{
 
     }
 
+    async getSnapshotBeforeUpdate(prevProps, prevState){
+
+        if(prevProps.match.params.projectRef !== this.props.match.params.projectRef){
+            let projectDetails = await this.fetchProjectDetails(this.props.match.params.projectRef);
+            let posts = await this.fetchProjectPosts(projectDetails.id);
+
+            this.setState({
+                projectDetails: projectDetails,
+                posts: posts
+               });
+        }
+    }
+
     componentDidUpdate(){
-        console.log("Profile Updated");
+
     }
 
     followProject = async () => {
@@ -120,11 +135,7 @@ class ProjectProfile extends React.Component{
     
                  <div className='main-section'>
     
-                    {
-                        this.props.desktopView == true
-                        &&
-                        <DesktopSideNav />
-                    }
+                    <DesktopSideNav desktopView={this.props.desktopView} />
     
                     <div className="profile-contiainer content-container">
 

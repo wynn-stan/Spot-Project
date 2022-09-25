@@ -316,41 +316,31 @@ async function getHomeFeed(user_id){
     ORDER BY posts.post_date, posts.post_time DESC;
      */
 
-    let query1 = `
+    let query = `
 
-    select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
+	select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for, users.username as username, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
+    from posts
+    inner join projects on projects.id = posts.post_for
+    inner join users on posts.post_by = users.id
+    where projects.managed_by = ?
+    
+    union
+    
+	select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for,  users.username as username, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
     from user_project_following
     inner join projects on projects.id = user_project_following.project_id
     inner join posts on posts.post_for = projects.id
-        inner join users on users.id = posts.post_by
+    inner join users on users.id = posts.post_by
     where user_project_following.user_id = ?
-    ORDER BY posts.post_date, posts.post_time DESC;
+    
+    ORDER BY post_date DESC, post_time DESC;
     
     `;
 
-    let query2 = `
-    select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for, users.username as username, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
-    from posts
-    inner join projects on projects.id = posts.post_for
-    inner join users on users.id = ?
-    where posts.post_by = ?
-    ORDER BY posts.post_date, posts.post_time DESC;
-    `
-
     try {
 
-        let [followingRows, followingMetadata] = await connection.query(
-            query1,
-            [user_id],
-            (err, results) => {
-    
-                return results;
-    
-            }
-        )
-
-        let [managedRows, managedMetadata] = await connection.query(
-            query2,
+        let [rows, metadata] = await connection.query(
+            query,
             [user_id, user_id],
             (err, results) => {
     
@@ -359,9 +349,7 @@ async function getHomeFeed(user_id){
             }
         )
     
-        let results = [...managedRows, ...followingRows];
-
-        return results;
+        return rows;
 
     }catch(err){
 
@@ -695,7 +683,73 @@ async function getProjectPosts(projectRef){
 
 }
 
+async function getProjectCategories(projectId){
+    try{
+
+        let query =
+        `
+        select * 
+        from categories
+        inner join project_category_relationship on categories.id = project_category_relationship.category_id
+        where project_category_relationship.project_id = ?
+        ;
+        `;
+
+        let [rows, metadata] = await connection.query(
+            query,
+            [projectId],
+            (err, results) => {
+                return results;
+            }
+        );
+
+        return rows;
+
+
+    }catch(err){
+
+        console.log(err);
+        logger.error(err);
+
+    }
+   
+}
+
+async function getUserDetails(username){
+
+    try{
+
+        let query =
+        `
+        select * 
+        from users
+        where username = ?;
+        ;
+        `;
+
+        let [rows, metadata] = await connection.query(
+            query,
+            [username],
+            (err, results) => {
+                return results;
+            }
+        );
+
+        return rows;
+
+
+    }catch(err){
+
+        console.log(err);
+        logger.error(err);
+
+    }
+
+}
+
 module.exports = {
+    getUserDetails: getUserDetails,
+    getProjectCategories: getProjectCategories,
     getProjectPosts: getProjectPosts,
     getProjectDetails: getProjectDetails,
     getCategories: getCategories,

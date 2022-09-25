@@ -1,7 +1,7 @@
 import React from "react";
 import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
-import DesktopSideNav from "./DesktopSideNav";
+import DesktopSideNav from "./SideNav";
 
 
 class PostCreator extends React.Component{
@@ -42,6 +42,16 @@ class PostCreator extends React.Component{
         let post_description = document.querySelector("#create-post-description").value;  
         let image_url;
 
+        if(selectedProjectValue == "null"){
+            alert("Please Select A Project To Post To");
+            return;
+        }
+
+        if(post_heading == ""){
+            alert("Post Heading Cannot Be Empty");
+            return;
+        }
+
         //if image, generate cloudinary url for image
         // if(this.cloudinary_form.has("file")){
 
@@ -69,9 +79,18 @@ class PostCreator extends React.Component{
                     "content-type": "application/json"
                 },
                 body: requestBody
-            });
-            
-            alert("Post Submitted Successfully");
+            }).then(
+                (res) => {
+                    if(res.status == 200){
+                        alert("Post Submitted Successfully");
+                        window.location = "/";
+                    }else {
+                        alert("There was an error in creating this post. Please retry again");
+                    }
+                }
+            );
+
+
         }catch(err){
             console.log(err);
         }
@@ -107,9 +126,6 @@ class PostCreator extends React.Component{
 
     render(){
 
-        console.log("user_projects");
-        console.log(this.state.userProjects);
-
         return (
             <>
 
@@ -117,37 +133,48 @@ class PostCreator extends React.Component{
 
                 <div className="main-section">
                     
-                    {
-                        this.props.desktopView == true
-                        &&
-                        <DesktopSideNav />
-                    }
+                    <DesktopSideNav desktopView={this.props.desktopView} />
 
                     <form action="#" onSubmit={this.stopFormSubmission} className="create-post-section content-container" method="POST">
 
-                        <input list="projects-list" name="post_for" id="create-post-for" placedholder="Select A Project To Post To..." required/>
+                        <header class="header">Create A Post</header>
+
+                        <select name="post_for" id="create-post-for" onFocus={(e) => {e.target.size = 10}} onBlur={(e) => {e.target.size = 1}} onChange={(e) => {e.target.size = 1; e.target.blur()}}>
+                            <option value="null">Select A Project To Post To...</option>
+                            {
+                                this.state.userProjects.length > 0
+                                &&
+                                this.state.userProjects.map(
+                                    (project) => {
+                                        return <option key={project.name} data-id={project.id} value={project.name}>{project.name}</option>
+                                    }
+                                )
+                            }
+                        </select>
+
+                        {/* <input list="projects-list" name="post_for" id="create-post-for" placedholder="Select A Project To Post To..." required/>
                         <datalist id="projects-list" className="select-user-projects">
                             {
                                 this.state.userProjects
                                 &&
                                 this.state.userProjects.map(
                                     (project) => {
-                                        return <option key={project.name} onClick={this.selectProject} data-id={project.id} value={project.name} />
+                                        return <option key={project.name} onClick={this.selectProject} data-id={project.id} value={project.name}>{project.name}</option>
                                     }
                                 )
                             }
-                        </datalist>
+                        </datalist> */}
 
                         <input className="post-heading" type="text" name="post_heading" id="create-post-heading" placeholder="An Interesting Title"/>
 
                         <textarea id="create-post-description" name="post_description" placeholder="Your text post(optional)"></textarea>
 
-                        <label htmlFor="img_upload" className="img_upload_button btn btn-primary">
+                        <label htmlFor="img_upload" className="img_upload_button btn btn-secondary">
                             <input type="file" name="img_upload" id="img_upload" onChange={this.handleImageUpload} />
                             Add Image
                         </label>    
 
-                        <button type="submit" onClick={this.createPost}>Post</button>
+                        <button type="submit" className="btn btn-primary" onClick={this.createPost}>Post</button>
 
                     </form>
                 </div>
@@ -160,6 +187,10 @@ class PostCreator extends React.Component{
     async componentDidMount(){
 
         let userProjects = await this.fetchUserProjects();
+
+        if(userProjects.length == 0){
+            alert("Reminder: You must be following or managing at least 1 project before you can post");
+        }
 
         this.setState({
             userProjects: userProjects

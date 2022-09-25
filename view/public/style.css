@@ -5,8 +5,13 @@
     --nav-section-bg: white;
     --post-section-bg: beige;
     --footernav-height: 50px;
-    --headernav-height: 70px
+    --headernav-height: 70px;
 
+}
+
+a {
+    text-decoration: none;
+    color: initial;
 }
 
 * {
@@ -18,6 +23,7 @@
 
 #root {
     min-height: 100vh;
+    position:relative;
 }
 
 .display-item {
@@ -112,6 +118,8 @@
 .nav-section-container {
     position: sticky;
     top: 0;
+    
+    z-index: 1024;
 
     box-shadow:0px 1px 1px #c1c1c1;
 
@@ -127,6 +135,10 @@
 
     width: 100%;
 	justify-content: space-around;
+}
+
+.nav-section-container .profile-btn {
+    display: none;
 }
 
 .nav-section-container .brand-logo {
@@ -210,23 +222,24 @@ textarea {
     resize: none;
 }
 
-.explore-container {
-
-/*     flex-wrap: wrap;
-    text-align: center;
+.explore-container .category-items  {
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
-    gap: 10px;
-    padding-top: 20px;
-    position: relative; */
 
 }
 
-.explore-container div {
+.explore-container .category-projects-container .header {
+    text-align: center;
+}
 
-    width: 150px;
-    height: 100px;
-    background-color: black;
-    color: white;
+.explore-container .category-projects-container{
+    max-height: 500px;
+    overflow: auto;
+    background-color: rgb(241,241,241);
+
 }
 
 .notifications-container .header {
@@ -236,21 +249,30 @@ textarea {
 .search-container .results-container {
     display: none;
     max-height: 300px;
+    width: 100vw;
     overflow-y: scroll;
+    
     position: absolute;
     width: 100%;
-    top: 56px;
+    top: var(--headernav-height);
+    left: 0;
     padding: 5px 10px;
+    background-color: #f5f5f5;
+    
+    z-index: 2;
 }
 
-@media screen and (max-width: 720px) {
-
-    /*factor in footer nav height in mobile display*/
-    .main-section {
-        min-height: calc(100vh - var(--headernav-height) - var(--footernav-height))
-    }
-
+.search-container .results-container .result-item {
+    display: flex;
+    align-content: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e2e2e2;
 }
+
+.search-container .results-container .result-item p{
+    padding-left: 5px;
+}
+
 
 /*New Styles*/
 
@@ -261,11 +283,15 @@ textarea {
 .main-section {
     display: flex;
     justify-content: center;
-    max-height: calc(100vh - var(--headernav-height))
 }
 
-.main-section .post-container {
-    min-height: calc(100vh - var(--headernav-height))
+.side-nav-container .user-menu-nav .profile-icon {
+    width: 5em;
+    height: 5em;
+}
+
+.side-nav-container .user-menu-nav {
+    padding: 10px 0;
 }
 
 .side-nav-container {
@@ -275,9 +301,13 @@ textarea {
 
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     background-color: var(--post-section-bg) ;
     
+    height: calc(100vh - var(--headernav-height));
+    overflow:auto;
+
 }
 
 .side-nav-container .user-menu-nav {
@@ -323,23 +353,12 @@ textarea {
     background-color: whitesmoke;
 }
 
-.main-section .content-container {
 
-}
-
-.main.content-section {
-
-}
 
 .create-post-section {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 5fr 1fr 1fr;
-    grid-template-areas: 
-        "select select"
-        "title title"
-        "text text"
-        "upload submit";
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .create-post-section #create-post-for {
@@ -379,12 +398,8 @@ textarea {
 /*Styles 2*/
  .content-container {
     width: 100%;
-     padding: 0 10px;
-    
-}
-
-.side-nav-container {
-    width: 100%;
+    padding: 0 10px;
+    height: calc(100vh - var(--headernav-height) + (1 * var(--footernav-height)))
 }
 
 .main-section {
@@ -394,14 +409,155 @@ textarea {
     gap: 10px;
 }
 
+.explore-container .category-projects-container {
+    padding: 10px 0;
+    margin: 10px 0;
+}
+
 .explore-container .category-item {
     width: 130px;
     height: 70px;
     border-radius: 8px;
 }
 
-.explore-container .category-projects-container {
+.explore-container .project-item {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "icon header"
+        "description description";
+}
+
+.explore-container .project-item img {
+    grid-area: icon;
+}
+
+.explore-container .project-item p:first-of-type {
+    grid-area: header;
+}
+
+.explore-container .project-item p:last-of-type {
+    grid-area: description;
+}
+
+.create-project-form {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-container header {
+    text-align: center;
+    font-size: 32px;
+    padding: 10px;
+}
+
+.create-project-form > *{
+    width: 80%;
+}
+
+.create-project-form .category_option {
+    display: flex;
+    gap: 10px;
+
+}
+
+.create-project-form .category_option > * {
+    margin: auto 0;
+    padding: 7px 10px;
+}
+
+.create-project-form div.form-floating:first-of-type {
+    margin-bottom: 20px;
+}
+
+.create-project-form div.form-floating textarea {
+    height: 150px;
+    resize: none;
+}
+
+.create-project-form fieldset {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
     flex-wrap: wrap;
-    width: 100%;
+    gap: 5px;
+    
+    margin: 25px 0px;
+}
+
+.explore-nav-container .options .option a {
+    padding: 0 5px;
+}
+
+.explore-nav-container .options {
+    max-height: 300px;
+    overflow: auto;
+    margin-left: 15px;
+    background-color: #ececd3;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+.explore-nav-container .option .profile-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.explore-nav-container .options .option {
+    border-bottom: 1px solid rgb(198,198,198);
+    padding: 5px 0;
+}
+
+.notifications-container .header{
+    text-align: center;
+}
+
+.profile-container .profile-header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.profile-container .profile-header-container .user-name {
+
+    padding-left: 5px;
+    
+}
+
+
+
+
+
+
+@media screen and (max-width: 720px) {
+
+    /*factor in footer nav height in mobile display*/
+    .main-section {
+        display: flex;
+        min-height: calc(100vh - var(--headernav-height) + (2 * var(--footernav-height)))
+    }
+    
+    .nav-section-container .profile-btn {
+        display: initial;
+    }
+    
+    .create-project-form fieldset {
+        display: flex;
+    }
+    
+    .side-nav-container {
+        position: fixed;
+        z-index: 2;
+        left: -100vw;
+        transition: left 0.35s;
+    }
+    
+    .side-nav-container.show {
+        left: 0;
+        transition: left 0.35s;
+    }
+
 }

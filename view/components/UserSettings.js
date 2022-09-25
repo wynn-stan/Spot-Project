@@ -1,7 +1,7 @@
 import React from "react";
 import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
-import DesktopSideNav from "./DesktopSideNav";
+import DesktopSideNav from "./SideNav";
 
 class UserSettings extends React.Component{
 
@@ -37,13 +37,9 @@ class UserSettings extends React.Component{
     
                  <div className='main-section'>
     
-                    {
-                        this.props.desktopView == true
-                        &&
-                        <DesktopSideNav />
-                    }
+                    <DesktopSideNav desktopView={this.props.desktopView} />
     
-                    <div className="profile-contiainer content-container">
+                    <div className="profile-container content-container">
 
                         <div className="settings-header-container">
 
@@ -74,6 +70,10 @@ class UserSettings extends React.Component{
             </>
         )
 
+    }
+
+    componentDidMount(){
+        window.scrollTo(0,0);
     }
 }
 export default UserSettings;

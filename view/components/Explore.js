@@ -1,7 +1,7 @@
 import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
 import React from "react";
-import DesktopSideNav from "./DesktopSideNav";
+import DesktopSideNav from "./SideNav";
 import setSessionItem from "../utils/setSessionItem";
 import { Link } from "react-router-dom";
 
@@ -73,6 +73,11 @@ class Explore extends React.Component{
 
     }
 
+    componentDidUpdate(){
+        window.scrollBy(0, 500);
+
+    }
+
     async componentDidMount(){
 
         let categories = await this.fetchAllProjectCategories();
@@ -91,47 +96,70 @@ class Explore extends React.Component{
     
                 <div className="main-section">
     
-                    {
-                        this.props.desktopView
-                        && 
-                        <DesktopSideNav />
-                    }
+                    <DesktopSideNav desktopView={this.props.desktopView} />
     
                     <div className="explore-container content-container">
 
-                        <button className="category-item all" onClick={this.getAllProjects}>All</button>
+                        <header>Explore Projects</header>
+
+                        <div className="category-items">
+                            <button className="category-item all btn btn-primary btn-large" onClick={this.getAllProjects}>All</button>
+
+                            {
+                                this.state.categories
+                                &&
+                                this.state.categories.map(
+                                    (category) => {
+                                        return <button onClick={this.selectCategory} key={category.name} className="category-item btn btn-primary btn-large" data-id={category.id}>{category.name}</button>
+                                    }
+                                )
+                            }
+                            
+                        </div>
 
                         {
-                            this.state.categories
-                            &&
-                            this.state.categories.map(
-                                (category) => {
-                                    return <button onClick={this.selectCategory} key={category.name} className="category-item" data-id={category.id}>{category.name}</button>
-                                }
-                            )
-                        }
+                                this.state.selectedCategory
+                                &&
+                                <div className="category-projects-container">
+                                    <h2 className="header">{this.state.selectedCategory} Projects</h2>
+                                    <div className="category-projects">
+                                    {
+                                        this.state.categoryProjects.length > 0
+                                        &&
+                                        this.state.categoryProjects.map(
+                                            (row) => {
+                                                return (<Link to={`/project-profile:${row.name}`} key={row.name} className='project-item'>
+                                                            <img src={row.avatar_url} className="project-icon" />
+                                                            <p>{row.name}</p>
+                                                            <div className="item-categories">
+                                                                {
+                                                                    row.categories
+                                                                    &&
+                                                                    row.categories.map(
+                                                                        (category_name) => {
+                                                                            <span className="badge rounded-pill bg-primary">{category_name}</span>
+                                                                        }
+                                                                    )
+                                                                }
+                                                            </div>
+                                                        </Link>)
+                                            }
+                                        )
+                                    }
+                                    {
+                                        this.state.categoryProjects.length == 0
+                                        &&
+                                        <>
+                                            <p>No projects under this category.</p>
+                                            <p>Why don't you create one<Link to="/create-project">here</Link></p>
                         
-                        {
-                            this.state.selectedCategory
-                            &&
-                            <div className="category-projects-container">
-                                <h2>{this.state.selectedCategory}</h2>
-                                {
-                                    this.state.categoryProjects.map(
-                                        (row) => {
-                                            return (<Link to="/project-profile" key={row.name} className='project-item' onClick={() => {setSessionItem("selected_project", row.name)}}>
-                                                        <img src={row.avatar_url} className="project-icon" />
-                                                        <p>{row.name}</p>
-                                                        <p>{row.description}</p>
-                                                    </Link>)
-                                        }
-                                    )
-                                }
-                            </div>
-                        }
+                                        </>
+                                    }
+                                    </div>
+                                </div>
+                            }
+         
                     </div>
-
-
     
                 </div>
     

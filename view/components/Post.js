@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Post extends React.Component{
 
@@ -14,7 +15,7 @@ class Post extends React.Component{
         let Post = (
                 <div className="post">
                     <img src={this.state.post.project_avatar_url} className="project-icon" />
-                    <p className='post-for'>{this.state.post.project_name}</p> 
+                    <Link to={`/project-profile:${this.state.post.project_name}`} className='post-for'>{this.state.post.project_name}</Link> 
                    <div className="post-by-container">
                         <p className='post-by'>{this.state.post.username}</p>
                         <p className='post-time'>{this.state.post.post_time}</p>

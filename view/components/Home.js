@@ -2,7 +2,7 @@ import React from 'react';
 import Post from './Post';
 import HeaderNav from './HeaderNav';
 import FooterNav from './FooterNav';
-import DesktopSideNav from './DesktopSideNav';
+import DesktopSideNav from './SideNav';
 
 class Home extends React.Component {
 
@@ -14,7 +14,8 @@ class Home extends React.Component {
             currentPage: 0,
             posts: [],
             loading: false, 
-            prevY: 0
+            prevY: 0,
+            hasFetched: false
         }
 
         this.loadingRef = React.createRef();
@@ -38,7 +39,7 @@ class Home extends React.Component {
             console.log(newPosts);
             
             this.setState({
-                posts: [...oldPosts, ...newPosts]
+                posts: [...oldPosts, ...newPosts],
             });
     
             currentPage = currentPage + 10;
@@ -118,12 +119,7 @@ class Home extends React.Component {
 
             <div className='main-section'>
 
-                {
-                    this.props.desktopView == true
-                    &&
-                    <DesktopSideNav />
-                }
-
+                <DesktopSideNav desktopView={this.props.desktopView} />
 
                 <div className="post-section content-container">
                     <div className="post-container">
@@ -135,19 +131,29 @@ class Home extends React.Component {
                             )
                         }
 
-                        <div className="loading-container">
-                            <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
+                            <div className="loading-container">
+
+                                    <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                    </div>
+
+                                    <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                    </div>
+
+                                    <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                    </div>
+
+                                {
+                                    (this.state.loading == false)
+                                    &&
+                                    <div>No New Posts</div>
+
+                                }
                             </div>
 
-                            <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                            </div>
-
-                            <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                        
                     </div>
 
                 </div>

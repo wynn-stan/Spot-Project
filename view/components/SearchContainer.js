@@ -53,7 +53,10 @@ class SearchContainer extends React.Component{
     hideSearchResults = () => {
 
         let searchResultsContainer = document.querySelector(".search-container .results-container");
-        searchResultsContainer.classList.remove("display-item");
+        setTimeout(
+            () => {searchResultsContainer.classList.remove("display-item");},
+            500
+        )
 
     }   
 
@@ -99,7 +102,7 @@ class SearchContainer extends React.Component{
                     this.state.results.map(
                         (row) => {
                             return (<Link to="/project-profile" key={row.name} className='result-item' onClick={() => {this.setSelectedProject(row.id)}}>
-                                        <img src={row.avatar_url} className="result-icon" />
+                                        <img src={row.avatar_url} className="profile-icon" />
                                         <p>{row.name}</p>
                                     </Link>)
 
