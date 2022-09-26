@@ -33,13 +33,6 @@ server.use(authenticationRoutes);
 server.use(postRoutes);
 server.use(getRoutes);
 
-//Until I figure out a way, just redirect them all to /
-server.get("/explore", (req, res) => {res.redirect("/")})
-server.get("/create-post", (req, res) => {res.redirect("/")})
-server.get("/notifications", (req, res) => {res.redirect("/")})
-server.get("/create-project", (req, res) => {res.redirect("/")})
-server.get("/notifications", (req, res) => {res.redirect("/")})
-
 
 
 const port = process.env.PORT || 3002;

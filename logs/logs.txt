@@ -5318,3 +5318,130 @@ error - Sep-21-2022 15:27:52: Cannot read properties of undefined (reading 'spli
 info - Sep-21-2022 15:31:36: Database Promise connection established
 info - Sep-21-2022 15:31:36: Server Running On Port 3002
 error - Sep-21-2022 15:35:33: Cannot read properties of undefined (reading 'split')
+info - Sep-25-2022 20:31:51: Database Promise connection established
+info - Sep-25-2022 20:31:52: Server Running On Port 3002
+error - Sep-25-2022 20:34:00: Cannot read properties of undefined (reading 'split')
+error - Sep-25-2022 20:34:09: Unknown column 'project_description' in 'field list'
+info - Sep-25-2022 23:34:14: Database Promise connection established
+info - Sep-25-2022 23:34:14: Server Running On Port 3002
+error - Sep-25-2022 23:35:13: Cannot read properties of undefined (reading 'split')
+info - Sep-25-2022 23:41:26: Database Promise connection established
+info - Sep-25-2022 23:41:26: Server Running On Port 3002
+info - Sep-26-2022 12:35:49: Database Promise connection established
+info - Sep-26-2022 12:35:49: Server Running On Port 3002
+info - Sep-26-2022 13:22:26: Database Promise connection established
+info - Sep-26-2022 13:22:27: Server Running On Port 3002
+error - Sep-26-2022 13:22:30: Cannot read properties of undefined (reading 'split')
+info - Sep-26-2022 13:34:03: Database Promise connection established
+info - Sep-26-2022 13:34:03: Server Running On Port 3002
+error - Sep-26-2022 13:35:13: Cannot read properties of undefined (reading 'split')
+error - Sep-26-2022 14:07:29: Cannot read properties of undefined (reading 'split')
+error - Sep-26-2022 14:17:30: Cannot read properties of undefined (reading 'split')
+error - Sep-26-2022 14:32:33: Cannot read properties of undefined (reading 'split')
+error - Sep-26-2022 15:13:32: Cannot read properties of undefined (reading 'split')
+error - Sep-26-2022 15:19:20: Cannot read properties of undefined (reading 'split')
+info - Sep-26-2022 15:29:12: Database Promise connection established
+info - Sep-26-2022 15:29:13: Server Running On Port 3002
+info - Sep-26-2022 15:29:55: Database Promise connection established
+info - Sep-26-2022 15:29:55: Server Running On Port 3002
+info - Sep-26-2022 15:38:58: Database Promise connection established
+info - Sep-26-2022 15:38:58: Server Running On Port 3002
+info - Sep-26-2022 15:39:16: Database Promise connection established
+info - Sep-26-2022 15:39:17: Server Running On Port 3002
+info - Sep-26-2022 15:39:55: Database Promise connection established
+info - Sep-26-2022 15:39:55: Server Running On Port 3002
+info - Sep-26-2022 15:40:36: Database Promise connection established
+info - Sep-26-2022 15:40:36: Server Running On Port 3002
+info - Sep-26-2022 15:40:59: Database Promise connection established
+info - Sep-26-2022 15:40:59: Server Running On Port 3002
+info - Sep-26-2022 15:41:52: Database Promise connection established
+info - Sep-26-2022 15:41:52: Server Running On Port 3002
+info - Sep-26-2022 15:42:18: Database Promise connection established
+info - Sep-26-2022 15:42:19: Server Running On Port 3002
+info - Sep-26-2022 15:42:44: Database Promise connection established
+info - Sep-26-2022 15:42:44: Server Running On Port 3002
+info - Sep-26-2022 15:43:04: Database Promise connection established
+info - Sep-26-2022 15:43:04: Server Running On Port 3002
+info - Sep-26-2022 15:43:55: Database Promise connection established
+info - Sep-26-2022 15:43:55: Server Running On Port 3002
+info - Sep-26-2022 15:44:12: Database Promise connection established
+info - Sep-26-2022 15:44:12: Server Running On Port 3002
+info - Sep-26-2022 15:45:20: Database Promise connection established
+info - Sep-26-2022 15:45:20: Server Running On Port 3002
+info - Sep-26-2022 15:46:10: Database Promise connection established
+info - Sep-26-2022 15:46:10: Server Running On Port 3002
+info - Sep-26-2022 15:46:13: Database Promise connection established
+info - Sep-26-2022 15:46:14: Server Running On Port 3002
+info - Sep-26-2022 15:46:24: Database Promise connection established
+info - Sep-26-2022 15:46:24: Server Running On Port 3002
+info - Sep-26-2022 15:48:19: Database Promise connection established
+info - Sep-26-2022 15:48:19: Server Running On Port 3002
+info - Sep-26-2022 15:50:30: Database Promise connection established
+info - Sep-26-2022 15:50:30: Server Running On Port 3002
+info - Sep-26-2022 15:54:12: Database Promise connection established
+info - Sep-26-2022 15:54:12: Server Running On Port 3002
+info - Sep-26-2022 15:56:33: Database Promise connection established
+info - Sep-26-2022 15:56:33: Server Running On Port 3002
+info - Sep-26-2022 15:56:45: Database Promise connection established
+info - Sep-26-2022 15:56:46: Server Running On Port 3002
+info - Sep-26-2022 15:56:53: Database Promise connection established
+info - Sep-26-2022 15:56:54: Server Running On Port 3002
+info - Sep-26-2022 15:57:44: Database Promise connection established
+info - Sep-26-2022 15:57:44: Server Running On Port 3002
+info - Sep-26-2022 15:58:10: Database Promise connection established
+info - Sep-26-2022 15:58:10: Server Running On Port 3002
+info - Sep-26-2022 15:59:13: Database Promise connection established
+info - Sep-26-2022 15:59:13: Server Running On Port 3002
+info - Sep-26-2022 15:59:37: Database Promise connection established
+info - Sep-26-2022 15:59:38: Server Running On Port 3002
+info - Sep-26-2022 15:59:43: Database Promise connection established
+info - Sep-26-2022 15:59:43: Server Running On Port 3002
+info - Sep-26-2022 16:00:19: Database Promise connection established
+info - Sep-26-2022 16:00:20: Server Running On Port 3002
+info - Sep-26-2022 16:00:23: Database Promise connection established
+info - Sep-26-2022 16:00:23: Server Running On Port 3002
+info - Sep-26-2022 16:01:43: Database Promise connection established
+info - Sep-26-2022 16:01:43: Server Running On Port 3002
+info - Sep-26-2022 16:04:37: Database Promise connection established
+info - Sep-26-2022 16:04:37: Server Running On Port 3002
+info - Sep-26-2022 16:05:40: Database Promise connection established
+info - Sep-26-2022 16:05:40: Server Running On Port 3002
+info - Sep-26-2022 16:06:05: Database Promise connection established
+info - Sep-26-2022 16:06:05: Server Running On Port 3002
+info - Sep-26-2022 16:08:29: Database Promise connection established
+info - Sep-26-2022 16:08:30: Server Running On Port 3002
+info - Sep-26-2022 16:10:04: Database Promise connection established
+info - Sep-26-2022 16:10:04: Server Running On Port 3002
+info - Sep-26-2022 16:10:25: Database Promise connection established
+info - Sep-26-2022 16:10:25: Server Running On Port 3002
+info - Sep-26-2022 16:12:42: Database Promise connection established
+info - Sep-26-2022 16:12:42: Server Running On Port 3002
+info - Sep-26-2022 16:14:51: Database Promise connection established
+info - Sep-26-2022 16:14:52: Server Running On Port 3002
+info - Sep-26-2022 16:21:42: Database Promise connection established
+info - Sep-26-2022 16:21:42: Server Running On Port 3002
+info - Sep-26-2022 16:24:38: Database Promise connection established
+info - Sep-26-2022 16:24:38: Server Running On Port 3002
+info - Sep-26-2022 16:24:59: Database Promise connection established
+info - Sep-26-2022 16:24:59: Server Running On Port 3002
+info - Sep-26-2022 16:28:20: Database Promise connection established
+info - Sep-26-2022 16:28:21: Server Running On Port 3002
+info - Sep-26-2022 16:29:25: Database Promise connection established
+info - Sep-26-2022 16:29:26: Server Running On Port 3002
+info - Sep-26-2022 16:29:41: Database Promise connection established
+info - Sep-26-2022 16:29:41: Server Running On Port 3002
+info - Sep-26-2022 16:31:39: Database Promise connection established
+info - Sep-26-2022 16:31:39: Server Running On Port 3002
+info - Sep-26-2022 16:33:05: Database Promise connection established
+info - Sep-26-2022 16:33:05: Server Running On Port 3002
+info - Sep-26-2022 16:33:10: Database Promise connection established
+info - Sep-26-2022 16:33:10: Server Running On Port 3002
+info - Sep-26-2022 16:33:36: Database Promise connection established
+info - Sep-26-2022 16:33:36: Server Running On Port 3002
+info - Sep-26-2022 16:34:40: Database Promise connection established
+info - Sep-26-2022 16:34:40: Server Running On Port 3002
+info - Sep-26-2022 16:35:02: Database Promise connection established
+info - Sep-26-2022 16:35:02: Server Running On Port 3002
+info - Sep-26-2022 16:38:14: Database Promise connection established
+info - Sep-26-2022 16:38:15: Server Running On Port 3002
+error - Sep-26-2022 16:44:22: Cannot read properties of undefined (reading 'split')

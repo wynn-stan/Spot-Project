@@ -133,7 +133,7 @@ class Home extends React.Component {
 
                             <div className="loading-container">
 
-                                    <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
+                                    {/* <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
                                     <span className="visually-hidden">Loading...</span>
                                     </div>
 
@@ -143,14 +143,11 @@ class Home extends React.Component {
 
                                     <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
                                     <span className="visually-hidden">Loading...</span>
-                                    </div>
+                                    </div> */}
 
-                                {
-                                    (this.state.loading == false)
-                                    &&
-                                    <div>No New Posts</div>
 
-                                }
+                                    <div ref={this.loadingRef}>No New Posts</div>
+
                             </div>
 
                         

@@ -16,6 +16,16 @@ router.post("/getProjectDetails", isAuthorized, getProjectDetails);
 router.post("/getProjectPosts", isAuthorized, getProjectPosts );
 router.post("/followProject", isAuthorized, followProject);
 router.post("/unfollowProject", isAuthorized, unfollowProject);
+router.post("/getUserPosts", isAuthorized, getUserPosts);
+
+async function getUserPosts(req, res){
+
+    let userId = req.body.userDetails.id;
+    let rows = await dbRequestHandlers.getUserPosts(userId);
+
+    res.send(rows);
+
+}
 
 async function unfollowProject(req, res){
 

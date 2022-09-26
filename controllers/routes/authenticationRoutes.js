@@ -91,7 +91,7 @@ async function generateUniqueUser(req,res, next){
 
         await dbRequestHandlers.register(userDetails.fullname, userDetails.username, userDetails.email, userDetails.newPassword, userDetails.avatar_url);
         userDetails = await dbRequestHandlers.getUserDetails(userDetails.username);
-        req.body = userDetails;
+        req.body = userDetails[0];
         next();
 
     }catch(err){

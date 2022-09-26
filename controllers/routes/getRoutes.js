@@ -32,5 +32,17 @@ async function getHomeFeed(req, res){
 
 }
 
+function redirectToHome(req, res){
+    res.redirect("/");
+}
+
+//Until I figure out a way, just redirect them all to /
+router.get("/explore", redirectToHome)
+router.get("/create-post", redirectToHome )
+router.get("/notifications", redirectToHome)
+router.get("/create-project", redirectToHome)
+router.get("/notifications", redirectToHome)
+router.get("/user-profile", redirectToHome)
+
 
 module.exports = router;

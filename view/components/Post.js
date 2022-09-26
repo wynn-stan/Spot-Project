@@ -9,7 +9,7 @@ class Post extends React.Component{
             post: props.postDetails
         };
     }
-
+    
     render(){
         
         let Post = (

@@ -660,7 +660,6 @@ async function getProjectPosts(projectRef){
         inner join users on users.id = posts.post_by
         where projects.id = ?
         order by post_date, post_time DESC;
-            ;
         `;
 
         let [rows, results] = await connection.query(
@@ -724,7 +723,6 @@ async function getUserDetails(username){
         select * 
         from users
         where username = ?;
-        ;
         `;
 
         let [rows, metadata] = await connection.query(
@@ -747,7 +745,41 @@ async function getUserDetails(username){
 
 }
 
+async function getUserPosts(userId){
+
+    try {
+
+        let query = `
+        select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for, users.username as username, projects.name as project_name, projects.avatar_url as project_avatar_url
+        from posts
+        inner join projects on posts.post_for = projects.id
+        inner join users on users.id = posts.post_by
+        where users.id = ?
+        order by post_date, post_time DESC;
+        `
+
+        let [rows, metadata] = await connection.query(
+            query,
+            [userId],
+            (err, results) => {
+                return results;
+            }
+        )
+
+        return rows;
+
+    }catch(err){
+
+        console.log(err);
+        logger.error(err);
+
+    }
+
+
+}
+
 module.exports = {
+    getUserPosts: getUserPosts,
     getUserDetails: getUserDetails,
     getProjectCategories: getProjectCategories,
     getProjectPosts: getProjectPosts,
