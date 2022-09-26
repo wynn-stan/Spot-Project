@@ -1,0 +1,4 @@
+POST http://localhost:3002/guestLogin
+
+###
+POST http://localhost:3002/fetchDBPosts HTTP/1.1

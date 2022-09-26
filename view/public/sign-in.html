@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+
+    <link rel="stylesheet" href="/public/bootstrap.min.css">
+
+    <style type="text/css">
+
+        main {
+            height: 100vh;
+        }
+
+        form.container {
+            max-width: 400px;
+            max-height: 300px;
+        }
+
+        #log_in_header {
+            
+            font-size: 26px;
+            margin-bottom: 20px;
+
+        }
+
+        a {
+            text-decoration: none;
+            font-style: italic;
+        }
+
+        .forgotPassword {
+            color: rgb(105, 104, 104);
+        }
+
+        input {
+            background-color: rgb(255, 255, 255);
+            border: none;
+            padding: 7px 15px;
+            border-radius: 7px;
+        }
+
+        input:focus {
+            border: none;
+        }
+
+        button {
+            border: none;
+            width: 100%;
+            border-radius: 20px;
+            background-color: #3ca7ff;
+            color: rgb(255, 255, 255);
+        }
+
+        body {
+            background-image: linear-gradient(to bottom right, rgb(255,255,255), #90caf9) ;
+        }
+
+        ::placeholder {
+            font-weight: lighter;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="d-flex flex-sm-row justify-content-center align-items-center">
+
+        <div class="">
+            <img id="authPageBg" data-src="/public/authPageBg.svg" class="w-100" src="" alt="">
+        </div>
+    
+        <form action="" method="post" class="container row">
+            <img src="" alt="">
+    
+            <div id="log_in_header" class="text-center">
+                Login 
+            </div>
+    
+            <input type="email" name="email" id="email" placeholder="Email" class="my-3">
+    
+            <input type="password" name="password" id="password" placeholder="Password" class="my-2">
+    
+            <!--
+            <p class="my-2"><a href="#" class="forgotPassword">Forgot password?</a></p>
+            -->
+    
+            <button class="my-2 py-1" type="submit" id="login_btn">Log In</button>
+            <button class="my-2 py-1" type="submit" id="guestBtn">Log In As Guest</button>
+
+    
+            <p class="my-2">Not a member? <a href="/register" class="">Register</a></p>
+            
+    
+        </form>
+
+    </main>
+    
+
+    <script>
+
+        //form handling
+        let formElement = document.querySelector("form");
+        formElement.addEventListener("submit", preventFormSubmission);
+
+        let loginBtn = document.querySelector("#login_btn");
+        loginBtn.addEventListener("click", handleLogin);
+
+        let guestLogin = document.querySelector("#guestBtn");
+        guestLogin.addEventListener("click", handleGuestLogin);
+
+        function preventFormSubmission(event){
+            event.preventDefault();
+        }
+
+        async function handleLogin(){
+
+            //isValidDetails
+            let email = document.querySelector("#email").value;
+            let password = document.querySelector("#password").value;
+
+            if(email === "" || password === ""){
+                alert("Email/Password Cannot Be Empty");
+                return;
+            }else {
+                    let userData = await fetch("/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":"application/json"
+                        },
+                        body: JSON.stringify(
+                            {
+                            email: email,
+                            password: password
+                        }
+                        )
+                    }).then(
+                        async (res) => {
+
+                            if(res.status == 403){
+                                alert("Invalid Email/Password!");
+                                return ;
+                            }else {
+                                return await res.json();
+                            }
+                        }
+                    );
+
+                if(userData && Object.keys(userData).length !== 0){
+                    sessionStorage.setItem("userDetails", JSON.stringify(userData));
+                    window.location = "/";
+                }
+
+            }
+
+        }
+
+        async function handleGuestLogin(){
+
+            /*
+                Login as guest
+                Send a request to the url guestLogin. 
+                Wait for a response which contains user's details
+                save details to session storage
+                move to "/"
+            */
+
+            let userData = await fetch("/guestLogin", {
+                method: "POST"
+            }).then(
+                async (res) => {
+                    let userData = await res.json();
+                    return userData;
+                }
+            )
+
+
+            sessionStorage.setItem("userDetails", JSON.stringify(userData));
+            window.location = "/";
+
+        }
+        
+
+
+        //bg Image lazy loading
+
+        let mediaQuery = window.matchMedia("(min-width: 720px)");
+        let desktopView = mediaQuery.matches;
+
+        if(desktopView){
+            toggleBackgroundImage();
+            mediaQuery.removeEventListener("change", checkCurrentView);
+        }else {
+
+            mediaQuery.addEventListener("change", checkCurrentView);
+
+        }
+
+        function checkCurrentView(mediaQuery){
+
+        // check if the current view matches the query we specified in window.matchMedia(). 
+        // If it does, we are in desktop view, so toggle the background image and stop listening
+
+            if(mediaQuery.matches){
+
+                toggleBackgroundImage();
+
+            }
+
+        }
+
+        function toggleBackgroundImage(){
+
+            //set the img src so the browser loads the image
+
+                let img = document.querySelector("#authPageBg");
+                let img_url = img.getAttribute("data-src");
+                img.setAttribute("src", img_url);
+
+        }        
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+
+    <link rel="stylesheet" href="/public/bootstrap.min.css">
+
+    <style type="text/css">
+
+        main {
+            height: 100vh;
+        }
+
+        form.container {
+            max-width: 400px;
+            max-height: 500px;
+        }
+
+        #log_in_header {
+            
+            font-size: 26px;
+            margin-bottom: 20px;
+
+        }
+
+        a {
+            text-decoration: none;
+            font-style: italic;
+        }
+
+        .forgotPassword {
+            color: rgb(105, 104, 104);
+        }
+
+        input {
+            background-color: rgb(255, 255, 255);
+            border: none;
+            padding: 7px 15px;
+            border-radius: 7px;
+        }
+
+        input:focus {
+            border: none;
+        }
+
+        button.sign-up {
+            margin-top: 25px;
+            border: none;
+            width: 100%;
+            border-radius: 20px;
+            background-color: #3ca7ff;
+            color: rgb(255, 255, 255);
+        }
+
+        body {
+            background-image: linear-gradient(to bottom right, rgb(255,255,255), #90caf9) ;
+        }
+
+        ::placeholder {
+            font-weight: lighter;
+        }
+    </style>
+</head>
+    <body>
+    
+        <main class="d-flex flex-sm-row justify-content-center align-items-center">
+    
+            <div class="">
+                <img id="authPageBg" data-src="/public/authPageBg.svg" class="w-100" src="/public/authPageBg.svg" alt="">
+            </div>
+        
+            <form action="" method="post" class="container row">
+                <img src="" alt="">
+        
+                <div id="log_in_header" class="text-center">
+                    Sign Up 
+                </div>
+        
+                <input type="text" name="fullname" id="fullname" placeholder="Full Name" class="my-2" required="">
+    
+                <input type="text" name="username" id="username" placeholder="New Username" class="my-2" required="">
+    
+                <input type="email" name="email" id="email" placeholder="Email" class="my-2" required="">
+    
+                <input type="password" name="newPassword" id="newPassword" on="" placeholder="New Password" class="my-2" required="">
+    
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" class="my-2" required="">
+        
+                <button class="py-1 sign-up" type="submit" id="signup_button">Sign Up</button>
+        
+                <p class="my-2">Already a member? <a href="/public/sign-in.html" class="">Login</a></p>
+                
+        
+            </form>
+    
+        </main>
+        
+        <script>
+    
+            //bg Image lazy loading
+    
+            let mediaQuery = window.matchMedia("(min-width: 720px)");
+            let desktopView = mediaQuery.matches;
+    
+            if(desktopView){
+                toggleBackgroundImage();
+                mediaQuery.removeEventListener("change", checkCurrentView);
+            }else {
+    
+                mediaQuery.addEventListener("change", checkCurrentView);
+    
+            }
+    
+            function checkCurrentView(mediaQuery){
+    
+            // check if the current view matches the query we specified in window.matchMedia(). 
+            // If it does, we are in desktop view, so toggle the background image and stop listening
+    
+            if(mediaQuery.matches){
+    
+                toggleBackgroundImage();
+    
+            }
+    
+            }
+    
+            function toggleBackgroundImage(){
+    
+                //set the img src so the browser loads the image
+    
+                    let img = document.querySelector("#authPageBg");
+                    let img_url = img.getAttribute("data-src");
+                    img.setAttribute("src", img_url);
+    
+            }
+
+            document.querySelector("form").addEventListener("submit", (e) => {e.preventDefault();})
+            document.querySelector("#signup_button").addEventListener("click", registerUser)
+    
+            async function registerUser(){    
+    
+                //check if both passwords match
+                let validPassword = document.querySelector("#newPassword").value === document.querySelector("#confirmPassword").value    
+
+                if(validPassword == false){
+                    alert("Passwords must match!");
+                    return false;
+                }
+
+                const newUser = {
+                    fullname: document.querySelector("#fullname").value,
+                    username: document.querySelector("#username").value,
+                    email: document.querySelector("#email").value,
+                    newPassword: document.querySelector("#newPassword").value
+                }
+
+                try{
+
+                    let userData = await fetch("/register",{
+                        headers: {
+                            "content-type": "application/json"
+                        },
+                        method: "POST",
+                        body: JSON.stringify(newUser)
+                    }).then(
+                        async (res) => {
+                            if(res.status == 403){
+                                alert("username or email already exists");
+                                return;
+                            }else{
+
+                                return await res.json();
+                            }
+                        }
+                    );
+
+                    if(userData){
+                        sessionStorage.setItem("userDetails", JSON.stringify(userData));
+                        window.location = "/";
+
+                    }
+
+                }catch(err){
+                    console.log(err)
+                }
+
+                return true;
+                        
+            }
+    
+        </script>
+    
+    </body>
+</html>
