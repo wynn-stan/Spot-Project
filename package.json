@@ -6,8 +6,9 @@
   "scripts": {
     "webpack-server": "webpack-dev-server",
     "nodemon": "nodemon ./controllers/server.js",
-    "start": "webpack --mode development",
-    "build": "webpack --mode production",
+    "start": "node ./controllers/server.js",
+    "start-webpack": "webpack --mode development",
+    "build-webpack": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
