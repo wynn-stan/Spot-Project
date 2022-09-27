@@ -2,7 +2,6 @@ import React from "react";
 import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
 import DesktopSideNav from "./SideNav";
-import setSessionItem from "../utils/setSessionItem";
 
 class ProjectCreator extends React.Component{
 
@@ -145,8 +144,8 @@ class ProjectCreator extends React.Component{
                     alert("Project Name already taken");
                     return;
                 }else {
-
                     alert("Successfully Created Project");
+                    window.location = "/";
                 }
             }
         )

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {isAuthorized} = require("./middleware");
+const {isAuthorized, isUniqueUser, generateIcon} = require("./middleware");
 const dbRequestHandlers = require("./dbRequestHandlers");
 const logger = require("../logger");
 
@@ -17,6 +17,30 @@ router.post("/getProjectPosts", isAuthorized, getProjectPosts );
 router.post("/followProject", isAuthorized, followProject);
 router.post("/unfollowProject", isAuthorized, unfollowProject);
 router.post("/getUserPosts", isAuthorized, getUserPosts);
+router.post("/updateUserProfile", isAuthorized, isUniqueUser, updateUserProfile);
+
+async function updateUserProfile(req, res){
+
+    try {
+        
+        let updatedProfile = req.body.updatedProfile;
+        updatedProfile.avatar_url = generateIcon("user", updatedProfile.username);
+        let oldUsername = req.body.userDetails.username;
+        
+        await dbRequestHandlers.updateUserProfile(updatedProfile.fullname, updatedProfile.username, updatedProfile.email, updatedProfile.password, updatedProfile.avatar_url, oldUsername);
+        
+        updatedProfile = await dbRequestHandlers.getUserDetails(updatedProfile.username);
+        console.log(updatedProfile)
+
+        res.status(200);
+        res.send(updatedProfile);
+
+    }catch(err){
+        console.log(err);
+        logger.log(err);
+    }
+
+}
 
 async function getUserPosts(req, res){
 

@@ -43,6 +43,7 @@ router.get("/notifications", redirectToHome)
 router.get("/create-project", redirectToHome)
 router.get("/notifications", redirectToHome)
 router.get("/user-profile", redirectToHome)
+router.get("/user-settings", redirectToHome)
 
 
 module.exports = router;

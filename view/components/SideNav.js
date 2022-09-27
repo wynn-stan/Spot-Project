@@ -15,6 +15,12 @@ class DesktopSideNav extends React.Component{
 
     }
 
+    confirmSignout = (e) => {
+        let confirmation = confirm("Confirm Sign out");
+        if(confirmation) return;
+        if(confirmation == false) e.preventDefault();
+    }
+
     render(){
 
         return (
@@ -28,7 +34,7 @@ class DesktopSideNav extends React.Component{
                     <Link to="/explore" className='create-option'>Explore Projects</Link>
                     <Link to="/create-post" className='create-option'>Create A Post</Link>
                     <Link to="/user-settings" className='Settings'>Settings</Link>
-                    <a href="/signout" className='signout'>Sign Out</a>
+                    <a href="/signout" className='signout' onClick={this.confirmSignout}>Sign Out</a>
 
                 </div>
     
