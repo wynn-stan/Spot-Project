@@ -41,3 +41,5 @@ server.listen(port, (err) => {
     if(err) logger.error(err);
     logger.info("Server Running On Port " + port);
 });
+
+module.exports = server;
