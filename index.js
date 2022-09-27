@@ -1,10 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const server = express();
-const authenticationRoutes = require('./routes/authenticationRoutes');
-const postRoutes = require("./routes/postRoutes");
-const getRoutes = require("./routes/getRoutes");
-const logger = require('./logger');
+const authenticationRoutes = require('./controllers/routes/authenticationRoutes');
+const postRoutes = require("./controllers/routes/postRoutes");
+const getRoutes = require("./controllers/routes/getRoutes");
+const logger = require('./controllers/logger');
 const bodyParser = require('body-parser');
 const path = require("path");
 const cookieParser = require('cookie-parser');
