@@ -40,6 +40,8 @@ class Explore extends React.Component{
             categoryProjects: categoryProjects
         });
 
+        window.scrollBy(0, 500);
+
     }
 
     fetchAllProjectCategories = async () => {
@@ -74,11 +76,11 @@ class Explore extends React.Component{
     }
 
     componentDidUpdate(){
-        window.scrollBy(0, 500);
-
     }
 
     async componentDidMount(){
+        window.scrollTo(0, 0);
+
 
         let categories = await this.fetchAllProjectCategories();
         
@@ -151,7 +153,7 @@ class Explore extends React.Component{
                                         &&
                                         <>
                                             <p>No projects under this category.</p>
-                                            <p>Why don't you create one<Link to="/create-project">here</Link></p>
+                                            <p>Why don't you create one <i><Link to="/create-project">here</Link></i></p>
                         
                                         </>
                                     }

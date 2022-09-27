@@ -59,6 +59,8 @@ class UserProfile extends React.Component{
                             <img src={this.state.userDetails.avatar_url} alt="" className="project-icon" />
 
                             <div className="user-name">{this.state.userDetails.username}</div>
+                            <div className="fullname">{this.state.userDetails.fullname}</div>
+
 
                         </div>
 
@@ -77,17 +79,6 @@ class UserProfile extends React.Component{
                                     }
 
                                     <div className="loading-container">
-                                        {/* <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                        </div>
-
-                                        <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                        </div>
-
-                                        <div ref={this.loadingRef} className="spinner-grow text-primary" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                        </div> */}
 
                                         <div ref={this.loadingRef}>No New Posts</div>
 

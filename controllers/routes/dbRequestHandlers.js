@@ -237,13 +237,13 @@ async function unfollowProject(user_id, project_id){
 
 }
 
-async function updateUserProfile(fullname, username, email, password, avatar_url){
+async function updateUserProfile(fullname, username, email, password, avatar_url, oldUsername){
 
     let query = `
 
     update users
     set fullname = ?, email = ?, password = ?, avatar_url = ?
-    where users.id = ?;
+    where users.username = ?;
     
     `;
 
@@ -251,7 +251,7 @@ async function updateUserProfile(fullname, username, email, password, avatar_url
 
         let [rows, metadata] = await connection.query(
             query,
-            [fullname, username, email, password, avatar_url],
+            [fullname, username, email, password, avatar_url, oldUsername],
             (err, results) => {
     
                 return results;

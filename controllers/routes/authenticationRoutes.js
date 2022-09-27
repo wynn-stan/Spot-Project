@@ -1,5 +1,6 @@
 //authentication routes, log in
 const router = require("express").Router();
+const {isUniqueUser, generateIcon } = require("./middleware");
 const jwt = require('jsonwebtoken');
 const path = require("path");
 let connection = require('../configDB');
@@ -59,33 +60,12 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/register", isUniqueUser, generateUniqueUser, generateUserJWT);
 
-async function isUniqueUser(req, res, next){
-
-    try {
-        let {username, email} = req.body;
-        let results = await dbRequestHandlers.isUniqueUser(username, email);
-
-        if(results.length == 0){
-            //info provided is unique and not in the database
-            next();
-        }else {
-            //send and already exists status code
-            res.sendStatus(403);
-        }
-    }catch(err){
-        console.log(err);
-        logger.error(err);
-    }
-
-
-}
-
 async function generateUniqueUser(req,res, next){
 
     try {
 
         let userDetails = req.body;
-        userDetails.avatar_url = `https://avatars.dicebear.com/api/micah/${userDetails.username}.svg`;
+        userDetails.avatar_url = generateIcon("user", userDetails.username);
 
         //already existing username, or email
 
