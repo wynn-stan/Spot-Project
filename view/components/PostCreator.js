@@ -16,21 +16,17 @@ class PostCreator extends React.Component{
             userProjects: []
         }
 
-        this.cloudinary_form = new FormData();
-        //for dev purposes only store the cloudinary upload preset, url, and etc on client sside
-        this.CLOUDINARY_UPLOAD_PRESET = "";
-        this.CLOUDINARY_URL = "";
-
     }
 
     handleImageUpload = (e) => {
 
-        this.cloudinary_form.append("file", e.target.files[0]);
-        this.cloudinary_form.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET);
+        //send a post to the 
 
     }
 
     createPost = async (e) => {
+
+        let formElement = document.querySelector("#create-post-form");
 
         //get selected Project 
         let selectedProjectValue = document.querySelector("#create-post-for").value;
@@ -39,8 +35,6 @@ class PostCreator extends React.Component{
 
         let post_heading = document.querySelector("#create-post-heading").value;
         let post_for = projectId;
-        let post_description = document.querySelector("#create-post-description").value;  
-        let image_url;
 
         if(selectedProjectValue == "null"){
             alert("Please Select A Project To Post To");
@@ -52,39 +46,35 @@ class PostCreator extends React.Component{
             return;
         }
 
-        //if image, generate cloudinary url for image
-        // if(this.cloudinary_form.has("file")){
+        // let requestBody = JSON.stringify({
+        //     post_heading: post_heading,
+        //     post_description: post_description,
+        //     post_for: post_for,
+        //     post_image_url: image_url
+        // });
 
-        //     image_url = fetch(this.CLOUDINARY_URL)
-        //     .then(async (res) => await res.json)
-        //     .then(
-        //         data => {
-        //                 return data.secure_url;
-        //         }
-        //     )
+        let post_by = (JSON.parse(sessionStorage.getItem("userDetails"))).id;
 
-        // }
+        let formData = new FormData(formElement);
+        formData.append("post_for", projectId);
+        formData.append("post_by", post_by)
 
-        let requestBody = JSON.stringify({
-            post_heading: post_heading,
-            post_description: post_description,
-            post_for: post_for,
-            post_image_url: image_url
-        });
 
         try {
             await fetch("/createPost", {
                 method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: requestBody
+                body: formData
             }).then(
                 (res) => {
                     if(res.status == 200){
                         alert("Post Submitted Successfully");
                         window.location = "/";
-                    }else {
+                    }else if(res.status == 401){
+                        alert("You cannot create posts or projects as a guest. Please Register An Account To Access These Features")
+                    }else if(res.status == 500){
+                        alert("Invalid file. You may only upload .png, .jpg, .jpeg, or .gif files");
+                    }
+                    else {
                         alert("There was an error in creating this post. Please retry again");
                     }
                 }
@@ -119,10 +109,6 @@ class PostCreator extends React.Component{
     
     }
 
-    stopFormSubmission = (e) => {
-        e.preventDefault();
-    } 
-
 
     render(){
 
@@ -135,11 +121,11 @@ class PostCreator extends React.Component{
                     
                     <DesktopSideNav desktopView={this.props.desktopView} />
 
-                    <form action="#" onSubmit={this.stopFormSubmission} className="create-post-section content-container" method="POST">
+                    <form action="#" encType="multipart/form-data" onSubmit={(e) => {e.preventDefault(); this.createPost();}} className="create-post-section content-container" id="create-post-form" method="POST">
 
-                        <header class="header">Create A Post</header>
+                        <header className="header">Create A Post</header>
 
-                        <select name="post_for" id="create-post-for" onFocus={(e) => {e.target.size = 10}} onBlur={(e) => {e.target.size = 1}} onChange={(e) => {e.target.size = 1; e.target.blur()}}>
+                        <select name="posted_for" id="create-post-for" onFocus={(e) => {e.target.size = 10}} onBlur={(e) => {e.target.size = 1}} onChange={(e) => {e.target.size = 1; e.target.blur()}}>
                             <option value="null">Select A Project To Post To...</option>
                             {
                                 this.state.userProjects.length > 0
@@ -152,29 +138,22 @@ class PostCreator extends React.Component{
                             }
                         </select>
 
-                        {/* <input list="projects-list" name="post_for" id="create-post-for" placedholder="Select A Project To Post To..." required/>
-                        <datalist id="projects-list" className="select-user-projects">
-                            {
-                                this.state.userProjects
-                                &&
-                                this.state.userProjects.map(
-                                    (project) => {
-                                        return <option key={project.name} onClick={this.selectProject} data-id={project.id} value={project.name}>{project.name}</option>
-                                    }
-                                )
-                            }
-                        </datalist> */}
+                        <div className="form-floating">
+                            <input className="post-heading form-control" type="text" name="post_heading" id="create-post-heading" />
+                            <label htmlFor="create-post-heading">An Interesting Title</label>
+                        </div>
 
-                        <input className="post-heading" type="text" name="post_heading" id="create-post-heading" placeholder="An Interesting Title"/>
-
-                        <textarea id="create-post-description" name="post_description" placeholder="Your text post(optional)"></textarea>
+                        <div className="form-floating">
+                            <textarea className="form-control" id="create-post-description"  name="post_description" ></textarea>
+                            <label htmlFor="create-post-description">Your text post(optional)</label>
+                        </div>
 
                         <label htmlFor="img_upload" className="img_upload_button btn btn-secondary">
-                            <input type="file" name="img_upload" id="img_upload" onChange={this.handleImageUpload} />
+                            <input type="file" name="post_image" id="img_upload" onChange={this.handleImageUpload} />
                             Add Image
                         </label>    
 
-                        <button type="submit" className="btn btn-primary" onClick={this.createPost}>Post</button>
+                        <button type="submit" className="btn btn-primary">Post</button>
 
                     </form>
                 </div>
@@ -185,6 +164,8 @@ class PostCreator extends React.Component{
     }
 
     async componentDidMount(){
+
+        window.scrollTo(0,0);
 
         let userProjects = await this.fetchUserProjects();
 

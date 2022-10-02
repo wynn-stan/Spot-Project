@@ -22,9 +22,9 @@ class ProjectCreator extends React.Component{
     
                     <DesktopSideNav desktopView={this.props.desktopView} />
 
-                    <form className="create-project-form" action="/create-project" method="POST">
+                    <form className="create-project-form content-container" action="/create-project" method="POST">
 
-                        <header>Create A Project</header>
+                        <header className="header">Create A Project</header>
 
                         <div className="form-floating">
                             <input placeholder="An Interesting Project Name" type="text" className="project-title form-control" name="project_name" id="project_name" required/>
@@ -143,9 +143,12 @@ class ProjectCreator extends React.Component{
                     //project already exists
                     alert("Project Name already taken");
                     return;
-                }else {
+                }else if(res.status == 401){
+                    alert("You cannot create posts or projects as a guest. Please Register An Account To Access These Features");
+                }
+                else {
                     alert("Successfully Created Project");
-                    window.location = "/";
+                    window.location.href = `/`;
                 }
             }
         )

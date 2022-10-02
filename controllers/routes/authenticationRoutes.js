@@ -1,6 +1,6 @@
 //authentication routes, log in
 const router = require("express").Router();
-const {isUniqueUser, generateIcon } = require("./middleware");
+const {isValidNewUser, generateIcon } = require("./middleware");
 const jwt = require('jsonwebtoken');
 const path = require("path");
 let connection = require('../configDB');
@@ -58,7 +58,7 @@ router.post("/login", async (req, res, next) => {
 
 }, generateUserJWT);
 
-router.post("/register", isUniqueUser, generateUniqueUser, generateUserJWT);
+router.post("/register", isValidNewUser, generateUniqueUser, generateUserJWT);
 
 async function generateUniqueUser(req,res, next){
 

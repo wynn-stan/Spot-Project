@@ -103,12 +103,12 @@ async function guestLogin(){
 
 }
 
-async function createPost(post_heading, post_description, post_img_url, post_by, post_for){
+async function createPost(post_heading, post_description, post_img_blob, post_by, post_for){
 
     let query = `
 
     insert into posts
-    (post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for)
+    (post_heading, post_description, post_date, post_time, post_img_blob, post_by, post_for)
     values
     (?, ?, current_date(), current_time(), ?, ?, ?);
     
@@ -118,7 +118,7 @@ async function createPost(post_heading, post_description, post_img_url, post_by,
 
         let [rows, metadata] = await connection.query(
             query,
-            [post_heading, post_description, post_img_url, post_by, post_for],
+            [post_heading, post_description, post_img_blob, post_by, post_for],
             (err, results) => {
     
                 return results;
@@ -274,10 +274,17 @@ async function getCategoryProjects(category_id){
 
     let query = `
 
-    select id, name, avatar_url
-    from projects
-    inner join project_category_relationship on project_category_relationship.project_id = projects.id
-    where project_category_relationship.category_id = ?;
+    Select projects_with_categories.id, projects_with_categories.name, projects_with_categories.avatar_url, categories.name as category_name
+    from (
+        select projects.id, projects.name, projects.avatar_url, categories.name as category_name
+        from projects
+        inner join project_category_relationship on project_category_relationship.project_id = projects.id
+        inner join categories on categories.id = project_category_relationship.category_id
+        where categories.id = ?
+    ) as projects_with_categories
+        inner join project_category_relationship on project_category_relationship.project_id = projects_with_categories.id
+        inner join categories on categories.id = project_category_relationship.category_id
+        ;
     
     `;
 
@@ -307,7 +314,7 @@ async function getCategoryProjects(category_id){
 async function getHomeFeed(user_id){
 
     /** Query1 check again
-     * 	Select posts.id, posts.post_heading, posts.post_description, posts.post_date, posts.post_time, posts.post_by, posts.post_for, users.username As username, projects.name As project_name
+     * 	Select posts.id, posts.post_heading, posts.post_description, posts.post_img_blob, posts.post_date, posts.post_time, posts.post_by, posts.post_for, users.username As username, projects.name As project_name
     from user_project_following
     inner join projects on projects.id = user_project_following.project_id
     inner join posts on posts.post_for = projects.id
@@ -318,7 +325,7 @@ async function getHomeFeed(user_id){
 
     let query = `
 
-	select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for, users.username as username, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
+    select posts.id as post_id, post_heading, post_description, post_img_blob, post_date, post_time, post_by, post_for, users.username as username, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
     from posts
     inner join projects on projects.id = posts.post_for
     inner join users on posts.post_by = users.id
@@ -326,7 +333,7 @@ async function getHomeFeed(user_id){
     
     union
     
-	select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for,  users.username as username, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
+	select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_blob, post_by, post_for,  users.username as username, projects.id as project_id, projects.name as project_name, projects.avatar_url as project_avatar_url, project_description
     from user_project_following
     inner join projects on projects.id = user_project_following.project_id
     inner join posts on posts.post_for = projects.id
@@ -349,6 +356,7 @@ async function getHomeFeed(user_id){
             }
         )
     
+        console.log(rows);
         return rows;
 
     }catch(err){
@@ -364,7 +372,7 @@ async function getUserFollowedProjects(user_id){
 
     let query = `
 
-    Select id, name, avatar_url
+    Select distinct id, name, avatar_url
     from projects inner join user_project_following on user_project_following.project_id = projects.id
     where user_project_following.user_id = ?;    
     `;
@@ -594,7 +602,11 @@ async function getAllProjects(){
 
         let query =
         `
-            Select * From projects;
+            select projects.id, projects.name, projects.avatar_url, categories.name as category_name
+            from projects
+            inner join project_category_relationship on project_category_relationship.project_id = projects.id
+            inner join categories on categories.id = project_category_relationship.category_id
+            ;
         `;
 
         let [rows, results] = await connection.query(
@@ -623,7 +635,9 @@ async function getProjectDetails(project_name){
 
         let query =
         `
-            Select * From projects
+            Select projects.id as id, projects.name as name, projects.avatar_url as avatar_url, projects.managed_by as managed_by, projects.project_description as project_description, users.username as managed_by_username, users.avatar_url
+            From projects
+            inner join users on users.id = projects.managed_by
             where projects.name = ?
             ;
         `;
@@ -654,7 +668,7 @@ async function getProjectPosts(projectRef){
 
         let query =
         `
-        select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for, projects.name as project_name, projects.avatar_url as project_avatar_url
+        select posts.id as post_id, post_heading, post_description, post_img_blob, post_date, post_time, post_img_blob, post_by, post_for, projects.name as project_name, projects.avatar_url as project_avatar_url
         from posts
         inner join projects on posts.post_for = projects.id
         inner join users on users.id = posts.post_by
@@ -745,22 +759,22 @@ async function getUserDetails(username){
 
 }
 
-async function getUserPosts(userId){
+async function getUserPosts(username){
 
     try {
 
         let query = `
-        select posts.id as post_id, post_heading, post_description, post_date, post_time, post_img_url, post_by, post_for, users.username as username, projects.name as project_name, projects.avatar_url as project_avatar_url
+        select posts.id as post_id, post_heading, post_description, post_img_blob, post_date, post_time, post_img_blob, post_by, post_for, users.username as username, projects.name as project_name, projects.avatar_url as project_avatar_url
         from posts
         inner join projects on posts.post_for = projects.id
         inner join users on users.id = posts.post_by
-        where users.id = ?
+        where users.username = ?
         order by post_date, post_time DESC;
         `
 
         let [rows, metadata] = await connection.query(
             query,
-            [userId],
+            [username],
             (err, results) => {
                 return results;
             }
@@ -775,6 +789,35 @@ async function getUserPosts(userId){
 
     }
 
+
+}
+
+async function isUserFollowing(userId, projectId){
+
+    try {
+
+        let query = `
+        select * 
+        from user_project_following
+        where user_project_following.user_id = ? and user_project_following.project_id = ?
+        `
+
+        let [rows, metadata] = await connection.query(
+            query,
+            [userId, projectId],
+            (err, results) => {
+                return results;
+            }
+        )
+
+        return rows;
+
+    }catch(err){
+
+        console.log(err);
+        logger.error(err);
+
+    }
 
 }
 
@@ -802,5 +845,6 @@ module.exports = {
     register: register,
     searchForProjects: searchForProjects,
     isUniqueProject: isUniqueProject,
-    isUniqueUser: isUniqueUser
+    isUniqueUser: isUniqueUser,
+    isUserFollowing: isUserFollowing
 }

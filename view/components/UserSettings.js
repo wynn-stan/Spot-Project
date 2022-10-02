@@ -109,26 +109,28 @@ class UserSettings extends React.Component{
     
                     <div className="profile-container content-container">
 
-                        <div className="settings-header-container">
+                        <header className="header">{this.state.userDetails.username} Settings</header>
 
-                            <img src={this.state.userDetails.avatar_url} alt="" className="project-icon" />
+                        <div className="profile-header-container settings">
 
-                            <div className="user-name">
-                                User Name
-                            </div>
+                            <img src={this.state.userDetails.avatar_url} alt="" className="profile-icon" />
 
-                            <button className="editDetails" onClick={this.makeInfoEditable}>Edit Info</button>
+                            <div className="user-name">{this.state.userDetails.username}</div>
 
-                            <button className="saveDetails" onClick={this.saveInfoToDB}>Save</button>
-
+                            <div className="fullname">{this.state.userDetails.fullname}</div>
 
                         </div>
 
-                        <div className="profile-body-container">
+                        <div className="profile-body-container settings">
 
                             {
                                 this.renderUserSettings()
                             }
+
+                            <div className="btn-group">
+                                <button className="editDetails" onClick={this.makeInfoEditable}>Edit Info</button>
+                                <button className="saveDetails" onClick={this.saveInfoToDB}>Save</button>
+                            </div>
 
                         </div>
                                         

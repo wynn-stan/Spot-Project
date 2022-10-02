@@ -92,7 +92,7 @@ class SearchContainer extends React.Component{
                 <div className='search-bar'>
 
                     <img src='/public/svgs/MagnifyingGlass.svg' className='bar-magnifying-glass'/>
-                    <input type="text" name="search" id="search" placeholder='Search'/>
+                    <input type="text" name="search" id="search" placeholder='Search Projects...'/>
 
                 </div>
 
@@ -101,7 +101,7 @@ class SearchContainer extends React.Component{
                 {
                     this.state.results.map(
                         (row) => {
-                            return (<Link to="/project-profile" key={row.name} className='result-item' onClick={() => {this.setSelectedProject(row.id)}}>
+                            return (<Link to={`/project-profile:${row.name}`} key={row.name} className='result-item' onClick={() => {this.setSelectedProject(row.id)}}>
                                         <img src={row.avatar_url} className="profile-icon" />
                                         <p>{row.name}</p>
                                     </Link>)

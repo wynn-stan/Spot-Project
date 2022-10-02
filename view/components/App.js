@@ -12,6 +12,7 @@ import "./client-socket";
 import ProjectProfile from './ProjectProfile';
 import UserProfile from './UserProfile';
 import UserSettings from './UserSettings';
+import UserChat from './UserChat';
 
 
 
@@ -26,9 +27,19 @@ class App extends React.Component{
 
     render(){
 
-        const Wrapper = (props) => {
+        const ProjectProfileWrapper = (props) => {
             const params = useParams();
             return <ProjectProfile desktopView={this.state.desktopView} {...{...props, match: {params}}}/>
+        }
+
+        const UserProfileWrapper = (props) => {
+            const params = useParams();
+            return <UserProfile desktopView={this.state.desktopView} {...{...props, match: {params}}}/>
+        }
+
+        const UserChatWrapper = (props) => {
+            let params = useParams();
+            return <UserChat desktopView={this.state.desktopView} {...{...props, match: {params}}}/>
         }
 
         return (
@@ -40,9 +51,10 @@ class App extends React.Component{
                     <Route path="/notifications" element={<Notifications desktopView={this.state.desktopView}/>} />
                     <Route path="/explore" element={<Explore desktopView={this.state.desktopView}/>} />
                     <Route path="/create-project" element={<ProjectCreator desktopView={this.state.desktopView}/>} />
-                    <Route path="/project-profile:projectRef" element={<Wrapper />} />
-                    <Route path="/user-profile" element={<UserProfile desktopView={this.state.desktopView}/>} />
+                    <Route path="/project-profile:projectRef" element={<ProjectProfileWrapper />} />
+                    <Route path="/user-profile:username" element={<UserProfileWrapper />} />
                     <Route path='/user-settings' element={<UserSettings desktopView={this.state.desktopView}/>} />
+                    <Route path='/user-chat:params' element={<UserChatWrapper />} />
 
                 </Routes>
             </BrowserRouter>
@@ -51,6 +63,9 @@ class App extends React.Component{
 
     componentDidMount = () => {
         this.checkCurrentView();
+
+        //set sessionStorage global stuff
+        sessionStorage.setItem("followedProject", {})
     }
 
     checkCurrentView = () => {

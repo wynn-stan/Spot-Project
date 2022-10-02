@@ -24,12 +24,12 @@ class DesktopSideNav extends React.Component{
     render(){
 
         return (
-            <div className='side-nav-container'>
+            <div className={`side-nav-container`}>
     
                 <div className='user-menu-nav'>
                     <img src={this.state.userDetails.avatar_url} className='profile-icon' />
-                    <a href="#" className='username'>u/{this.state.userDetails.username}</a>
-                    <Link to="/user-profile" className='my-profile-option'>My Profile</Link>
+                    <a href="#" className='username'>{this.state.userDetails.username}</a>
+                    <Link to={`/user-profile:${this.state.userDetails.username}`} className='my-profile-option'>My Profile</Link>
                     <Link to="/create-project" className='create-option'>Create A Project</Link>
                     <Link to="/explore" className='create-option'>Explore Projects</Link>
                     <Link to="/create-post" className='create-option'>Create A Post</Link>
@@ -124,18 +124,44 @@ class DesktopSideNav extends React.Component{
 
     }
 
+    componentDidUpdate(){
+        let sideNav = document.querySelector(".side-nav-container");
+        if(this.props.desktopView){
+            sideNav.style.position = "sticky";
+        }else {
+            sideNav.style.position = "fixed";
+        }
+    }
+
     async componentDidMount(){
+
         //fetch user created projects
         const managedProjects = await this.fetchUserManagedProjects();
 
         //fetch user followed projects
         const followedProjects = await this.fetchUserFollowedProjects();
 
+        //manage scrolling
+        let sideNav = document.querySelector(".side-nav-container");
+        if(this.props.desktopView){
+            sideNav.style.position = "sticky";
+        }else {
+            sideNav.style.position = "fixed";
+        }
+        // sideNav.style.position: -webkit-sticky; /* Safari */
+
+        sideNav.style.top = document.querySelector(".nav-section-container").offsetHeight + "px";
+        sideNav.style.height = window.innerHeight - document.querySelector(".nav-section-container").offsetHeight + "px" ;
+
+        window.addEventListener("resize", () => {
+            sideNav.style.height = window.innerHeight - document.querySelector(".nav-section-container").offsetHeight + "px" ;
+        })
+
         this.setState({
             managedProjects: managedProjects,
             followedProjects: followedProjects
         });
-        
+
     }
 
 }
