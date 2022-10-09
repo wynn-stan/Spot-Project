@@ -55,7 +55,6 @@ class Explore extends React.Component{
         );
 
         return categories;
-
     }
 
     getAllProjects = async () => {
@@ -71,12 +70,12 @@ class Explore extends React.Component{
         this.setState({
             selectedCategory: "All",
             categoryProjects: rows
-        })
+        });
+
+        window.scrollBy(0, 500);
 
     }
 
-    componentDidUpdate(){
-    }
 
     async componentDidMount(){
         window.scrollTo(0, 0);
@@ -92,6 +91,33 @@ class Explore extends React.Component{
 
     render(){
 
+        // let rowsChecked = 0;
+        // let currentProjectCategories = [];
+        // let rows = this.state.categoryProjects;
+        // let currentRowName = "";
+
+        // for(let i = 0; i < rows.length; i++){
+                                            
+
+        //         currentRowName = rows[i].name;
+
+        //         let item = (
+        //             <Link to={`/project-profile:${rows[i].name}`} key={rows[i].name} className='project-item'>
+        //                 <img src={rows[i].avatar_url} className="project-icon" />
+        //                 <p>{rows[i].name}</p>
+        //                 <div className="item-categories">
+        //                     {
+        //                         while(rows[i].name == currentRowName){
+        //                             categoryProjects.push(
+        //                                 <span className="badge bg-prmary rounded-pill">{rows[i].category_name}</span>
+        //                             )
+        //                         }
+        //                     }
+        //                 </div>
+        //             </Link>
+        //         )
+        // }
+
         return (
             <>
                 <HeaderNav desktopView={this.props.desktopView}/>
@@ -102,7 +128,7 @@ class Explore extends React.Component{
     
                     <div className="explore-container content-container">
 
-                        <header>Explore Projects</header>
+                        <header className="header">Explore Projects</header>
 
                         <div className="category-items">
                             <button className="category-item all btn btn-primary btn-large" onClick={this.getAllProjects}>All</button>
@@ -126,26 +152,66 @@ class Explore extends React.Component{
                                     <h2 className="header">{this.state.selectedCategory} Projects</h2>
                                     <div className="category-projects">
                                     {
+                                        //super-inefficient
                                         this.state.categoryProjects.length > 0
                                         &&
                                         this.state.categoryProjects.map(
-                                            (row) => {
-                                                return (<Link to={`/project-profile:${row.name}`} key={row.name} className='project-item'>
-                                                            <img src={row.avatar_url} className="project-icon" />
-                                                            <p>{row.name}</p>
-                                                            <div className="item-categories">
-                                                                {
-                                                                    row.categories
-                                                                    &&
-                                                                    row.categories.map(
-                                                                        (category_name) => {
-                                                                            <span className="badge rounded-pill bg-primary">{category_name}</span>
+                                            (out_row, out_index, out_elements) => {
+
+                                                    console.log(out_row, out_index, out_elements);
+
+                                                    if(out_index == 0){
+
+                                                        return (<Link to={`/project-profile:${out_row.name}`} key={out_row.name} className='project-item'>
+                                                                    <img src={out_row.avatar_url} className="project-icon" />
+                                                                    <p>{out_row.name}</p>
+                                                                    <div className="item-categories">
+                                                                        {
+                                                                            this.state.categories.map(
+                                                                                (in_row, in_index) => {
+                                                                                    console.log(out_row, out_index, in_index, out_elements);
+
+                                                                                    if((out_elements[out_index + in_index] !== undefined) && (out_elements[out_index + in_index].name == out_row.name)){
+                                                                                        return  <span className="badge rounded-pill">{out_elements[out_index + in_index].category_name}</span>
+                                                                                    }else{
+                                                                                        return ;
+                                                                                    }
+                                                                                }
+                                                                            )
                                                                         }
-                                                                    )
-                                                                }
-                                                            </div>
-                                                        </Link>)
-                                            }
+                                                                    </div>
+                                                                </Link>)
+
+                                                    }
+                                                    if(out_index == out_elements.length){
+
+                                                        return
+                                                     
+                                                    }
+                                                    
+                                                    if(out_elements[out_index -1].name !== out_row.name){ //we're in a different project row
+
+                                                            return (<Link to={`/project-profile:${out_row.name}`} key={out_row.name} className='project-item'>
+                                                                        <img src={out_row.avatar_url} className="project-icon" />
+                                                                        <p>{out_row.name}</p>
+                                                                        <div className="item-categories">
+                                                                            {
+                                                                                this.state.categories.map(
+                                                                                    (in_row, in_index) => {
+                                                                                        if((out_elements[out_index + in_index] !== undefined) && (out_elements[out_index + in_index].name == out_row.name)){
+                                                                                            return  <span className="badge rounded-pill">{out_elements[out_index + in_index].category_name}</span>
+                                                                                        }else{
+                                                                                            return ;
+                                                                                        }
+                                                                                    }
+                                                                                )
+                                                                            }
+                                                                        </div>
+                                                                    </Link>)
+                                                            
+                                                    }
+                                                                                                        
+                                                }
                                         )
                                     }
                                     {

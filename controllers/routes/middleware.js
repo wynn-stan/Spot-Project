@@ -56,7 +56,29 @@ async function generateUserJWT(req, res){
 
 }
 
-async function isUniqueUser(req, res, next){
+async function isValidNewUser(req, res, next){
+
+    try {
+        let {username, email} = req.body;
+
+        let results = await dbRequestHandlers.isUniqueUser(username, email);
+
+        if(results.length == 0){
+            //info provided is unique and not in the database
+            next();
+        }else{
+            //send an already exists status code
+            res.sendStatus(403);
+        }
+    }catch(err){
+        console.log(err);
+        logger.error(err);
+    }
+
+
+}
+
+async function isValidUpdatedUser(req, res, next){
 
     try {
         let {username, email} = req.body.updatedProfile;
@@ -96,10 +118,10 @@ function generateIcon(type, seed){
     }
 }
 
-
 module.exports = {
     isAuthorized: isAuthorized,
     generateUserJWT: generateUserJWT,
-    isUniqueUser: isUniqueUser, 
-    generateIcon: generateIcon
+    isValidNewUser: isValidNewUser, 
+    generateIcon: generateIcon,
+    isValidUpdatedUser: isValidUpdatedUser
 }

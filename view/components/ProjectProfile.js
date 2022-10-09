@@ -3,13 +3,15 @@ import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
 import DesktopSideNav from "./SideNav";
 import Post from "./Post";
+import { Link } from "react-router-dom";
 
 class ProjectProfile extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            posts:[]
+            posts:[],
+            projectDetails: {}
         }
     }
 
@@ -62,8 +64,9 @@ class ProjectProfile extends React.Component{
        let posts = await this.fetchProjectPosts(projectDetails.id);
 
        this.setState({
+        isUserFollowing: posts.isUserFollowing,
         projectDetails: projectDetails,
-        posts: posts
+        posts: posts.posts
        });
 
     }
@@ -76,7 +79,8 @@ class ProjectProfile extends React.Component{
 
             this.setState({
                 projectDetails: projectDetails,
-                posts: posts
+                posts: posts.posts,
+                isUserFollowing: posts.isUserFollowing
                });
         }
     }
@@ -99,6 +103,9 @@ class ProjectProfile extends React.Component{
         .then(
             async (res) => {
                 if(res.status == 200){
+                    this.setState({
+                        isUserFollowing: true
+                    })
                     alert("Followed");
                 }
             }
@@ -107,6 +114,7 @@ class ProjectProfile extends React.Component{
     }
 
     unfollowProject = async () => {
+
 
         await fetch("/unfollowProject",{
             method: "POST",
@@ -120,6 +128,9 @@ class ProjectProfile extends React.Component{
         .then(
             async (res) => {
                 if(res.status == 200){
+                    this.setState({
+                        isUserFollowing: false
+                    })
                     alert("Unfollowed");
                 }
             }
@@ -129,6 +140,8 @@ class ProjectProfile extends React.Component{
 
     render(){
 
+        let projectDetails = this.state.projectDetails;
+
         return (
             <>
                 <HeaderNav desktopView={this.props.desktopView}/>
@@ -137,25 +150,41 @@ class ProjectProfile extends React.Component{
     
                     <DesktopSideNav desktopView={this.props.desktopView} />
     
-                    <div className="profile-contiainer content-container">
+                    <div className="profile-container content-container">
 
-                        <div className="profile-header-container">
+                        <header className="header">Project Profile</header>
+
+                        <div className="profile-header-container project">
 
                             {
-                                this.state.projectDetails
+                                projectDetails
                                 &&
                                 <>
-                                    <img src={this.state.projectDetails.avatar_url} alt="" className="project-icon" />
+                                    <img src={projectDetails.avatar_url} alt="" className="profile-icon" />
 
-                                    <div className="project-name">{this.state.projectDetails.name}</div>
+                                    <div className="project-name">{projectDetails.name}</div>
 
-                                    <div className="project-description">{this.state.projectDetails.project_description}</div>
+                                    <div className="project-description">{projectDetails.project_description}</div>
 
-                                    <div className="project-followers">{}</div>
+                                    <div className="project-managed-by">
+                                        Managed By @<Link to={`/user-profile:${projectDetails.managed_by_username}`}>{projectDetails.managed_by_username}</Link>
+                                    </div>
 
-                                    <button className="follow-btn" onClick={this.followProject}>Follow</button>
+                                    {
+                                        this.state.isUserFollowing !== undefined
+                                        &&
+                                        this.state.isUserFollowing == false 
+                                        &&
+                                        <button className="follow-btn" onClick={this.followProject}>Follow</button>
+                                    }
 
-                                    <button className="unfollow-btn" onClick={this.unfollowProject}>Unfollow</button>
+                                    {
+                                        this.state.isUserFollowing !== undefined
+                                        &&
+                                        this.state.isUserFollowing == true 
+                                        &&
+                                        <button className="unfollow-btn" onClick={this.unfollowProject}>Unfollow</button>
+                                    }
                                 </>
                             }
 
@@ -164,6 +193,7 @@ class ProjectProfile extends React.Component{
                         <div className="profile-body-container">
 
                             <div className="post-section content-container">
+                                <h3 className="header">Project Posts</h3>
                                 <div className="post-container">
                                     {
                                         this.state.posts.map(

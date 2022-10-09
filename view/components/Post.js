@@ -9,24 +9,37 @@ class Post extends React.Component{
             post: props.postDetails
         };
     }
+
+    renderPostBlob = (post_img_blob) => {
+        let img_arraybuffer = new Uint8Array(post_img_blob.data);
+        let img_blob = new Blob([img_arraybuffer], {type: "octet/stream"})
+        let dataUrl = window.URL.createObjectURL(img_blob);
+        return <img className="post-img" src={dataUrl} />
+    }
     
     render(){
+
+        let postDetails = this.state.post;
+        if(typeof postDetails.post_time == "object"){
+            let time_arraybuffer = new Uint8Array(postDetails.post_time)
+            postDetails.post_time = (new TextDecoder()).decode(time_arraybuffer);
+        }
         
         let Post = (
                 <div className="post">
-                    <img src={this.state.post.project_avatar_url} className="project-icon" />
-                    <Link to={`/project-profile:${this.state.post.project_name}`} className='post-for'>{this.state.post.project_name}</Link> 
+                    <img src={postDetails.project_avatar_url} className="project-icon" />
+                    <Link to={`/project-profile:${postDetails.project_name}`} className='post-for'>{postDetails.project_name}</Link> 
                    <div className="post-by-container">
-                        <p className='post-by'>{this.state.post.username}</p>
-                        <p className='post-time'>{this.state.post.post_time}</p>
+                        <Link to={`/user-profile:${postDetails.username}`} className='post-by'>{postDetails.username}</Link>
+                        <p className='post-time'>{postDetails.post_time}</p>
                    </div>
                     <img src="/public/svgs/DotsThreeVertical.svg" className='options-icon' />
-                    <p className='post-heading'>{this.state.post.post_heading}</p>
-                    <p className='post-description'>{this.state.post.post_description}</p>
+                    <p className='post-heading'>{postDetails.post_heading}</p>
+                    <p className='post-description'>{postDetails.post_description}</p>
                     {
-                        this.state.post.post_img_url
+                        postDetails.post_img_blob
                         &&
-                        <img className="post-img" src={this.state.post.post_img_url} />
+                        this.renderPostBlob(postDetails.post_img_blob)
                     }
                 </div>
         )

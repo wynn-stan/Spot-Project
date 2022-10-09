@@ -1,9 +1,27 @@
 const router = require("express").Router();
-const {isAuthorized, isUniqueUser, generateIcon} = require("./middleware");
+const {isAuthorized, isValidNewUser, isValidUpdatedUser, generateIcon} = require("./middleware");
 const dbRequestHandlers = require("./dbRequestHandlers");
 const logger = require("../logger");
 
-router.post("/createPost", isAuthorized, createPost);
+const multer = require("multer");
+const imageStorage = multer.memoryStorage();
+const upload = multer({
+    storage: imageStorage,
+    fileFilter: (req, file, callback) => {
+        if(
+            file.mimetype == "image/png" ||
+            file.mimetype == "image/jpg" ||
+            file.mimetype == "image/jpeg" ||
+            file.mimetype == "image/gif"
+        ){
+            callback(null, true);
+        }else {
+            callback(null, false);
+        }
+    }
+});
+
+router.post("/createPost", isAuthorized, upload.single("post_image"), createPost);
 router.post("/createProject",isAuthorized, isUniqueProject, createProject);
 router.post("/search", searchForProjects);
 router.post("/getUserFollowedProjects", isAuthorized, getUserFollowedProjects);
@@ -17,7 +35,24 @@ router.post("/getProjectPosts", isAuthorized, getProjectPosts );
 router.post("/followProject", isAuthorized, followProject);
 router.post("/unfollowProject", isAuthorized, unfollowProject);
 router.post("/getUserPosts", isAuthorized, getUserPosts);
-router.post("/updateUserProfile", isAuthorized, isUniqueUser, updateUserProfile);
+router.post("/updateUserProfile", isAuthorized, isValidUpdatedUser, updateUserProfile);
+router.post("/getUserDetails", isAuthorized, getUserDetails);
+
+async function getUserDetails(req, res){
+
+    try{
+
+        let username = req.body.username.split(":").pop();
+        let userDetails = await dbRequestHandlers.getUserDetails(username);
+        res.send(userDetails[0]);
+
+    }catch(err){
+        console.log(err);
+        logger.log(err)
+    }
+
+
+}
 
 async function updateUserProfile(req, res){
 
@@ -44,8 +79,8 @@ async function updateUserProfile(req, res){
 
 async function getUserPosts(req, res){
 
-    let userId = req.body.userDetails.id;
-    let rows = await dbRequestHandlers.getUserPosts(userId);
+    let username = req.body.username;
+    let rows = await dbRequestHandlers.getUserPosts(username);
 
     res.send(rows);
 
@@ -77,9 +112,18 @@ async function followProject(req, res){
 async function getProjectPosts(req, res){
     
     let projectRef = req.body.projectRef;
-    let posts = await dbRequestHandlers.getProjectPosts(projectRef);
+    let userRef = req.body.userDetails.id;
 
-    res.send(posts);
+    let posts = await dbRequestHandlers.getProjectPosts(projectRef);
+    let isUserFollowing = await dbRequestHandlers.isUserFollowing(userRef, projectRef);
+
+    if(isUserFollowing.length == 0){
+        isUserFollowing = false;
+    }else {
+        isUserFollowing = true;
+    }
+
+    res.send({posts: posts, isUserFollowing: isUserFollowing});
 
 }
 
@@ -97,7 +141,7 @@ async function getHomeFeed(req, res){
 
         let userId = req.body.userDetails.id
         let feed = await dbRequestHandlers.getHomeFeed(userId);
-
+        console.log(feed);
         res.send(feed);
 
     }catch(err){
@@ -131,16 +175,6 @@ async function getCategoryProjects(req, res){
         let category_id = req.body.category_id;
 
         categoryProjects = await dbRequestHandlers.getCategoryProjects(category_id);
-        
-        console.log(categoryProjects);
-
-        categoryProjects = await categoryProjects.map(
-            async (project) => {
-                let categories = await dbRequestHandlers.getProjectCategories(project.id);
-                project = {...project, categories: categories};
-                return project
-            }
-        )
 
         res.send(categoryProjects);
 
@@ -184,15 +218,22 @@ async function searchForProjects(req, res){
 
 async function createPost(req, res){
 
+    let img_blob = null;
+    if(req.file){
+        img_blob = req.file.buffer;
+    }
+
     const details = req.body;
+    console.log(req.body)
 
     try{
 
-        await dbRequestHandlers.createPost(details.post_heading, details.post_description, details.post_img_url, details.userDetails.id, details.post_for);
+        await dbRequestHandlers.createPost(details.post_heading, details.post_description, img_blob, details.post_by, details.post_for);
 
         res.sendStatus(200);
 
     }catch(err){
+        res.sendStatus(401);
         logger.error(err)
     }
     
@@ -206,7 +247,8 @@ async function createProject(req, res){
     let project_icon_url = `https://avatars.dicebear.com/api/initials/${(projectDetails.project_name).replace(/\s+/g, "")}.svg`
 
     try{
-        
+        console.log(userDetails.id, projectDetails.project_name, project_icon_url, projectDetails.project_description);
+
         await dbRequestHandlers.createProject(userDetails.id, projectDetails.project_name, project_icon_url, projectDetails.project_description);
         let newProject = await dbRequestHandlers.searchForProjects(projectDetails.project_name);
         let newProjectId = newProject[0].id;
@@ -220,6 +262,7 @@ async function createProject(req, res){
         res.sendStatus(200);
 
     }catch(err){
+        res.sendStatus(401);
         console.log(err)
         logger.error(err);
     }

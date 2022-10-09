@@ -3,28 +3,35 @@ import FooterNav from "./FooterNav";
 import HeaderNav from "./HeaderNav";
 import DesktopSideNav from "./SideNav";
 import Post from "./Post";
+import { Link } from "react-router-dom";
 
 class UserProfile extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            userDetails: JSON.parse(sessionStorage.getItem("userDetails")),
+            userDetails: {},
             userPosts: []
         }
     }
 
-    fetchUserPosts = async () => {
+    fetchUserPosts = async (username) => {
 
         try {
 
             let userPosts = await fetch("/getUserPosts", {
-                method: "POST"
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username
+                })
             }).then(
-               async (res) => {
+                async (res) => {
                     return await res.json();
                 }
-            );
+            )
 
             return userPosts;
 
@@ -34,10 +41,36 @@ class UserProfile extends React.Component{
 
     }
 
+    fetchUserDetails = async (username) => {
+
+        let userDetails = await fetch("/getUserDetails", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username
+            })
+        }).then(
+            async (res) => {
+                return await res.json();
+            }
+        )
+
+        return userDetails;
+    }
+
     async componentDidMount(){
         window.scrollTo(0,0);
-        let userPosts = await this.fetchUserPosts();
+
+        let username = (this.props.match.params.username.split(":")).pop();
+
+        let userDetails = await this.fetchUserDetails(username);
+
+        let userPosts = await this.fetchUserPosts(username);
+
         this.setState({
+            userDetails: userDetails,
             userPosts: userPosts
         });
     }
@@ -54,12 +87,22 @@ class UserProfile extends React.Component{
     
                     <div className="profile-container content-container">
 
-                        <div className="profile-header-container">
+                        <header className="header">{this.state.userDetails.username} Profile</header>
 
-                            <img src={this.state.userDetails.avatar_url} alt="" className="project-icon" />
+                        <div className="profile-header-container settings">
+
+                            <img src={this.state.userDetails.avatar_url} alt="" className="profile-icon" />
 
                             <div className="user-name">{this.state.userDetails.username}</div>
                             <div className="fullname">{this.state.userDetails.fullname}</div>
+
+                            {
+                                JSON.parse(sessionStorage.getItem("userDetails")).id !== this.state.userDetails.id
+                                &&
+                                <button className="message">
+                                    <Link to={`/user-chat:${this.state.userDetails.username}-next-${encodeURIComponent(this.state.userDetails.avatar_url)}`}>Message</Link>
+                                </button>
+                            }
 
 
                         </div>
@@ -69,8 +112,11 @@ class UserProfile extends React.Component{
                         <div className="profile-body-container">
 
                             <div className="post-section content-container">
+                                <h3 className="header">User Posts</h3>
                                 <div className="post-container">
                                     {
+                                        this.state.userPosts
+                                        &&
                                         this.state.userPosts.map(
                                             (postDetails) => {
                                                 return <Post key={postDetails.post_id} postDetails={postDetails} />
