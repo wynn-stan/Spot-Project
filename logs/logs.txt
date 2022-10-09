@@ -7026,3 +7026,76 @@ info - Oct-01-2022 20:59:01: Server Running On Port 3002
 error - Oct-01-2022 20:59:05: Cannot read properties of undefined (reading 'split')
 error - Oct-01-2022 22:46:18: Cannot read properties of undefined (reading 'split')
 error - Oct-01-2022 22:47:13: Cannot read properties of undefined (reading 'split')
+info - Oct-02-2022 16:39:00: Database Promise connection established
+info - Oct-02-2022 16:39:01: Server Running On Port 3002
+error - Oct-02-2022 16:51:17: Cannot read properties of undefined (reading 'split')
+error - Oct-02-2022 16:55:52: Cannot read properties of undefined (reading 'split')
+error - Oct-02-2022 17:00:10: Cannot read properties of undefined (reading 'split')
+error - Oct-02-2022 17:00:26: Out of sort memory, consider increasing server sort buffer size
+error - Oct-02-2022 17:06:35: Cannot read properties of undefined (reading 'split')
+error - Oct-02-2022 17:06:47: Out of sort memory, consider increasing server sort buffer size
+info - Oct-02-2022 17:11:31: Database Promise connection established
+info - Oct-02-2022 17:11:32: Server Running On Port 3002
+info - Oct-02-2022 17:12:22: Database Promise connection established
+info - Oct-02-2022 17:12:23: Server Running On Port 3002
+info - Oct-02-2022 17:12:28: Database Promise connection established
+info - Oct-02-2022 17:12:29: Server Running On Port 3002
+info - Oct-02-2022 17:14:00: Database Promise connection established
+info - Oct-02-2022 17:14:01: Server Running On Port 3002
+info - Oct-02-2022 17:20:31: Database Promise connection established
+info - Oct-02-2022 17:20:32: Server Running On Port 3002
+error - Oct-02-2022 17:22:18: Cannot read properties of undefined (reading 'split')
+info - Oct-02-2022 17:25:49: Database Promise connection established
+info - Oct-02-2022 17:25:50: Server Running On Port 3002
+info - Oct-02-2022 17:27:31: Database Promise connection established
+info - Oct-02-2022 17:27:32: Server Running On Port 3002
+error - Oct-02-2022 17:27:39: Cannot read properties of undefined (reading 'split')
+error - Oct-02-2022 17:28:02: Out of sort memory, consider increasing server sort buffer size
+error - Oct-02-2022 17:30:35: Cannot read properties of undefined (reading 'split')
+error - Oct-02-2022 17:32:00: Out of sort memory, consider increasing server sort buffer size
+info - Oct-03-2022 01:10:47: Database Promise connection established
+info - Oct-03-2022 01:10:47: Server Running On Port 3002
+error - Oct-03-2022 01:12:08: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 01:15:08: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 01:29:27: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 01:31:46: Data too long for column 'post_description' at row 1
+info - Oct-03-2022 01:36:43: Database Promise connection established
+info - Oct-03-2022 01:36:43: Server Running On Port 3002
+error - Oct-03-2022 01:48:56: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 01:49:17: Out of sort memory, consider increasing server sort buffer size
+error - Oct-03-2022 01:57:24: Cannot read properties of undefined (reading 'split')
+info - Oct-03-2022 10:48:41: Database Promise connection established
+info - Oct-03-2022 10:48:41: Server Running On Port 3002
+error - Oct-03-2022 10:56:45: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:22:36: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:23:47: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:24:25: Out of sort memory, consider increasing server sort buffer size
+error - Oct-03-2022 11:26:21: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:26:42: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:27:01: Out of sort memory, consider increasing server sort buffer size
+error - Oct-03-2022 11:27:26: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:29:22: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:29:29: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 11:41:35: Out of sort memory, consider increasing server sort buffer size
+info - Oct-03-2022 12:16:48: Database Promise connection established
+info - Oct-03-2022 12:16:48: Server Running On Port 3002
+error - Oct-03-2022 12:17:06: Out of sort memory, consider increasing server sort buffer size
+error - Oct-03-2022 12:17:14: Cannot read properties of undefined (reading 'split')
+info - Oct-03-2022 14:49:42: Database Promise connection established
+info - Oct-03-2022 14:49:43: Server Running On Port 3002
+error - Oct-03-2022 14:50:07: Cannot read properties of undefined (reading 'split')
+error - Oct-03-2022 14:50:11: Cannot read properties of undefined (reading 'split')
+info - Oct-04-2022 09:54:32: Database Promise connection established
+info - Oct-04-2022 09:54:33: Server Running On Port 3002
+error - Oct-04-2022 09:55:39: Cannot read properties of undefined (reading 'split')
+error - Oct-04-2022 09:59:14: Cannot read properties of undefined (reading 'split')
+error - Oct-04-2022 10:03:06: Out of sort memory, consider increasing server sort buffer size
+error - Oct-04-2022 10:04:57: Cannot read properties of undefined (reading 'split')
+error - Oct-04-2022 10:05:30: Cannot read properties of undefined (reading 'split')
+error - Oct-04-2022 10:06:26: Cannot read properties of undefined (reading 'split')
+error - Oct-04-2022 10:42:31: Cannot read properties of undefined (reading 'split')
+info - Oct-06-2022 09:26:28: Database Promise connection established
+info - Oct-06-2022 09:26:29: Server Running On Port 3002
+error - Oct-06-2022 09:26:57: Cannot read properties of undefined (reading 'split')
+error - Oct-06-2022 09:40:32: Cannot read properties of undefined (reading 'split')
+error - Oct-06-2022 09:40:58: Out of sort memory, consider increasing server sort buffer size

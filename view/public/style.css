@@ -85,9 +85,14 @@ a {
     "project-icon post-by options-icon" 
     "heading heading heading" 
     "detail detail detail" 
+    "img img img"
     ;
 
     padding: 5px 10px;
+}
+
+img.post-img {
+    grid-area: img;
 }
 
 
