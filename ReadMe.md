@@ -1,7 +1,38 @@
 # Spot-Project
 A social media web app
 
-#Installation Steps
+[TOC]
+
+### Snapshots of Application
+![login-page](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\login.PNG)
+
+***login-page***
+
+![user-profile-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\New capp Capture.PNG)
+***user-profile***
+
+![direct-messaging-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\messaging cap.PNG)
+***direct-messaging***
+
+![user-homefeed-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\New Capture.PNG)
+***user-home-feed***
+
+![user-settings-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\user settings Capture.PNG)
+***user-settings***
+
+![explore-projects-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\explore.png)
+***explore-projects***
+
+![create-a-project-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\3.PNG)
+***create-a-project***
+
+![create-a-post-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\New CapPNG.PNG)
+***create-a-post***
+
+
+
+
+### Installation Steps
 1. Install NodeJs On Your Computer
 
 2. Open the Command Line Terminal(or equivalent) on your computer
