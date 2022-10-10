@@ -7,26 +7,32 @@ A social media web app
 
 ### Snapshots of Application
 ![login-page](./README/imgs/login.PNG)
-
 ***login-page***
+
 
 ![user-profile-ui](./README/imgs/user-profile.PNG)
 ***user-profile***
 
+
 ![direct-messaging-ui](./README/imgs/messaging.PNG)
 ***direct-messaging***
+
 
 ![user-homefeed-ui](./README/imgs/user-feed.PNG)
 ***user-home-feed***
 
+
 ![user-settings-ui](./README/imgs/user-settings.PNG)
 ***user-settings***
+
 
 ![explore-projects-ui](./README/imgs/explore.png)
 ***explore-projects***
 
+
 ![create-a-project-ui](./README/imgs/3.PNG)
 ***create-a-project***
+
 
 ![create-a-post-ui](./README/imgs/create-post.PNG)
 ***create-a-post***
