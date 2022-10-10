@@ -6,7 +6,7 @@ function setupLogger(winston){
     const loggerConfig = {
         transports: [
             new winston.transports.File({
-                filename: "./logs/logs.txt",
+                filename: "../logs/logs.txt",
                 level: "info"
             }),
             new winston.transports.Console()
