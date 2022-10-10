@@ -11,6 +11,7 @@ A social media web app
 
 
 ![user-profile-ui](./README/imgs/user-profile.PNG)
+<br />
 ***user-profile***
 
 
@@ -19,7 +20,7 @@ A social media web app
 
 
 ![user-homefeed-ui](./README/imgs/user-feed.PNG)
-***user-home-feed***
+<br />***user-home-feed***
 
 
 ![user-settings-ui](./README/imgs/user-settings.PNG)
