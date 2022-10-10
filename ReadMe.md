@@ -1,32 +1,34 @@
 # Spot-Project
 A social media web app
 
-[TOC]
+- [Spot-Project](#spot-project)
+    - [Snapshots of Application](#snapshots-of-application)
+    - [Installation Steps](#installation-steps)
 
 ### Snapshots of Application
-![login-page](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\login.PNG)
+![login-page](./README/imgs/login.PNG)
 
 ***login-page***
 
-![user-profile-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\New capp Capture.PNG)
+![user-profile-ui](./README/imgs/user-profile.PNG)
 ***user-profile***
 
-![direct-messaging-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\messaging cap.PNG)
+![direct-messaging-ui](./README/imgs/messaging.PNG)
 ***direct-messaging***
 
-![user-homefeed-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\New Capture.PNG)
+![user-homefeed-ui](./README/imgs/user-feed.PNG)
 ***user-home-feed***
 
-![user-settings-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\user settings Capture.PNG)
+![user-settings-ui](./README/imgs/user-settings.PNG)
 ***user-settings***
 
-![explore-projects-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\explore.png)
+![explore-projects-ui](./README/imgs/explore.png)
 ***explore-projects***
 
-![create-a-project-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\3.PNG)
+![create-a-project-ui](./README/imgs/3.PNG)
 ***create-a-project***
 
-![create-a-post-ui](C:\Users\Wynnstan\Desktop\Techy Bits\TB Projects\RE-spot-project\README\imgs\New CapPNG.PNG)
+![create-a-post-ui](./README/imgs/create-post.PNG)
 ***create-a-post***
 
 
